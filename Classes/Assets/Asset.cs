@@ -1,4 +1,6 @@
-﻿namespace Internship_4_OOP_Crypto_Wallet.Classes.Asset
+﻿using Internship_4_OOP_Crypto_Wallet.Classes.Wallets;
+
+namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
 {
     public abstract class Asset
     {
@@ -44,13 +46,13 @@
         #endregion
 
         #region Properties
-        public Guid Address { get => _address; }
+        public Guid Address => _address;
         public string Name
         {
             get => _name;
             set
             {
-                if(string.IsNullOrEmpty(value))
+                if (string.IsNullOrEmpty(value))
                     throw new ArgumentNullException("Name property cannot be an empty string.");
                 if (Asset.TryAddNameOrLabel(value))
                 {

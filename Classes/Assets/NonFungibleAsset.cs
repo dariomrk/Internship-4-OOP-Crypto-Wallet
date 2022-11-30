@@ -1,4 +1,6 @@
-﻿namespace Internship_4_OOP_Crypto_Wallet.Classes.Asset
+﻿using Internship_4_OOP_Crypto_Wallet.Classes.Wallets;
+
+namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
 {
     public sealed class NonFungibleAsset : Asset
     {
@@ -14,6 +16,7 @@
         {
             if (fungibleAsset == null)
                 throw new ArgumentNullException("Parameter fungibleAsset cannot be null.");
+            Wallet.AddSupport(this);
             _fungibleAsset=fungibleAsset;
         }
         #endregion

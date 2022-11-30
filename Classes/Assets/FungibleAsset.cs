@@ -1,4 +1,6 @@
-﻿namespace Internship_4_OOP_Crypto_Wallet.Classes.Asset
+﻿using Internship_4_OOP_Crypto_Wallet.Classes.Wallets;
+
+namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
 {
     public sealed class FungibleAsset : Asset
     {
@@ -29,6 +31,7 @@
         #region Constructors
         public FungibleAsset(string name, decimal value, string label) : base(name, value)
         {
+            Wallet.AddSupport(this);
             Label = label;
         }
         #endregion
