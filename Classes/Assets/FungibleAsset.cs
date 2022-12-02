@@ -31,7 +31,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
         #region Constructors
         public FungibleAsset(string name, decimal value, string label) : base(name, value)
         {
-            Wallet.AddSupport(this);
+            FungibleWallet.AddSupport(this);
             Label = label;
         }
         #endregion

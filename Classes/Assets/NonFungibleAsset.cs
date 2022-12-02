@@ -16,7 +16,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
         {
             if (fungibleAsset == null)
                 throw new ArgumentNullException("Parameter fungibleAsset cannot be null.");
-            Wallet.AddSupport(this);
+            FungibleWallet.AddSupport(this);
             _fungibleAsset=fungibleAsset;
         }
         #endregion
