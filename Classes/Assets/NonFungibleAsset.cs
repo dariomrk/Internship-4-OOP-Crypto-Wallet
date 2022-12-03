@@ -19,7 +19,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
             FungibleAsset tiedFungibleAsset,
             decimal tiedFungibleAssetAmount) : base(name, 0m)
         {
-            FungibleWallet.AddSupport(this);
+            BaseWallet.AddSupport(this);
             _tiedFungibleAsset=tiedFungibleAsset
                 ?? throw new ArgumentNullException("Parameter fungibleAsset cannot be null.");
             _tiedFungibleAssetValue = tiedFungibleAssetAmount;

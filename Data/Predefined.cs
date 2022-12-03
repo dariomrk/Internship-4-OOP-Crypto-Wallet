@@ -7,19 +7,6 @@ namespace Internship_4_OOP_Crypto_Wallet.Data
 {
     public static class Predefined
     {
-        public static IWallet[] wallets = new IWallet[]
-        {
-            new BitcoinWallet(),
-            new BitcoinWallet(),
-            new BitcoinWallet(),
-            new EthereumWallet(),
-            new EthereumWallet(),
-            new EthereumWallet(),
-            new SolanaWallet(),
-            new SolanaWallet(),
-            new SolanaWallet(),
-        };
-
         public static FungibleAsset[] fungibleAssets = new FungibleAsset[]
         {
             new FungibleAsset("Bitcoin",16376m,"BTC"),
@@ -55,10 +42,10 @@ namespace Internship_4_OOP_Crypto_Wallet.Data
                     "ETH")!,
                 0.15m
                 ),
-            new NonFungibleAsset("Cel Mates Crime Reports",
+            new NonFungibleAsset("Cel Mates Hello World",
                 FindByLabel(fungibleAssets,
                     "ETH")!,
-                0.65m
+                0.30m
                 ),
             new NonFungibleAsset("Crypto Unicorns Market",
                 FindByLabel(fungibleAssets,
@@ -125,6 +112,19 @@ namespace Internship_4_OOP_Crypto_Wallet.Data
                 FindByLabel(fungibleAssets,
                     "ETH")!,
                 1.3m),
+        };
+
+        public static IWallet[] wallets = new IWallet[]
+        {
+            new BitcoinWallet(),
+            new BitcoinWallet(),
+            new BitcoinWallet(),
+            new EthereumWallet(),
+            new EthereumWallet(),
+            new EthereumWallet(),
+            new SolanaWallet(),
+            new SolanaWallet(),
+            new SolanaWallet(),
         };
     }
 }

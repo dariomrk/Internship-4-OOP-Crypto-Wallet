@@ -83,17 +83,15 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
                 throw new InvalidOperationException("Name property must be unique.");
             }
         }
-        public decimal Value { get => _value; protected set { _value = value; } }
+        public decimal ValueUSD { get => _value; protected set { _value = value; } }
         #endregion
 
         #region Constructors
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         protected Asset(string name, decimal value)
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             _address = Guid.NewGuid();
             Name = name;
-            Value = value;
+            ValueUSD = value;
             _allAssets.Add(this.Address,this);
         }
         #endregion

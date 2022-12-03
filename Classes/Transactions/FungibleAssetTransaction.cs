@@ -63,8 +63,8 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Transactions
         {
             base.RevokeTransaction();
 
-            FungibleWallet sender = (FungibleWallet)_sender;
-            FungibleWallet reciever = (FungibleWallet)_reciever;
+            BaseWallet sender = (BaseWallet)_sender;
+            BaseWallet reciever = (BaseWallet)_reciever;
 
             sender.RevokeFungibleTransaction(this);
             reciever.RevokeFungibleTransaction(this);

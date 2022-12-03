@@ -1,15 +1,15 @@
 ﻿using Internship_4_OOP_Crypto_Wallet.Classes.Assets;
 using Internship_4_OOP_Crypto_Wallet.Classes.Transactions;
 using Internship_4_OOP_Crypto_Wallet.Interfaces;
+using static Internship_4_OOP_Crypto_Wallet.Enums.Wallet;
 
 namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
 {
-    public abstract class FungibleWallet : ISupportsFungible
+    public abstract class BaseWallet : ISupportsFungible
     {
         #region Static members
         protected static List<Guid> _allFungible = new();
         protected static List<Guid> _allNonFungible = new();
-
         public static void AddSupport(FungibleAsset a)
         {
             _allFungible.Add(a.Address);
@@ -24,6 +24,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
         private Guid _address = Guid.NewGuid();
         private List<ITransaction> _transactions = new();
         private Dictionary<Guid, decimal> _balances = new();
+        private WalletType _type;
         #endregion
 
         #region Properties
@@ -43,11 +44,13 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
             }
         }
         public Guid[] SupportedFungibleAssets => _allFungible.ToArray();
+        public string Type => _type.ToString();
         #endregion
 
         #region Constructors
-        protected FungibleWallet()
+        protected BaseWallet(WalletType type)
         {
+            _type = type;
         }
         #endregion
 
@@ -87,6 +90,13 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
             {
                 _balances[transaction.AssetAddress] += transaction.BalanceRecieverBefore-transaction.BalanceRecieverAfter;
             }
+        }
+
+        public override string ToString()
+        {
+            // TODO Implement fully
+            return $"{Type} " +
+                $"{Address} ";
         }
         #endregion
     }

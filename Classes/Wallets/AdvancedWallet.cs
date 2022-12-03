@@ -1,10 +1,11 @@
 ﻿using Internship_4_OOP_Crypto_Wallet.Classes.Assets;
 using Internship_4_OOP_Crypto_Wallet.Classes.Transactions;
 using Internship_4_OOP_Crypto_Wallet.Interfaces;
+using static Internship_4_OOP_Crypto_Wallet.Enums.Wallet;
 
 namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
 {
-    public abstract class FungibleAndNonFungibleWallet : FungibleWallet, ISupportsNonFungible
+    public abstract class AdvancedWallet : BaseWallet, ISupportsNonFungible
     {
         #region Fields
         private List<Guid> _ownedNonFungibleAssets = new();
@@ -16,7 +17,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
         #endregion
 
         #region Constructors
-        protected FungibleAndNonFungibleWallet() : base()
+        protected AdvancedWallet(WalletType type) : base(type)
         {
 
         }
