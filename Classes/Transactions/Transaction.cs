@@ -1,4 +1,5 @@
-﻿using Internship_4_OOP_Crypto_Wallet.Interfaces;
+﻿using Internship_4_OOP_Crypto_Wallet.Classes.Assets;
+using Internship_4_OOP_Crypto_Wallet.Interfaces;
 
 namespace Internship_4_OOP_Crypto_Wallet.Classes.Transactions
 {
@@ -8,7 +9,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Transactions
         private Guid _id = new();
         private Guid _assetAddress;
         private DateTime _createdAt = DateTime.UtcNow;
-        private Guid _sender, _reciever;
+        protected IWallet _sender, _reciever;
         private bool _isRevoked = false;
         #endregion
 
@@ -16,17 +17,24 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Transactions
         public Guid Id => _id;
         public Guid AssetAddress => _assetAddress;
         public DateTime CreatedAt => _createdAt;
-        public Guid Sender => _sender;
-        public Guid Reciever => _reciever;
-        public bool IsRevoked { get => _isRevoked; set => value = _isRevoked; }
+        public Guid Sender => _sender.Address;
+        public Guid Reciever => _reciever.Address;
+        public bool IsRevoked { get => _isRevoked; }
         #endregion
 
         #region Constructors
-        protected Transaction(Guid assetAddress, Guid sender, Guid reciever)
+        protected Transaction(Guid assetAddress, IWallet sender, IWallet reciever)
         {
             _assetAddress = assetAddress;
             _sender = sender;
             _reciever = reciever;
+        }
+        #endregion
+
+        #region Methods
+        public virtual void RevokeTransaction()
+        {
+            _isRevoked = true;
         }
         #endregion
     }

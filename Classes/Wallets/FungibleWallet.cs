@@ -1,4 +1,5 @@
 ﻿using Internship_4_OOP_Crypto_Wallet.Classes.Assets;
+using Internship_4_OOP_Crypto_Wallet.Classes.Transactions;
 using Internship_4_OOP_Crypto_Wallet.Interfaces;
 
 namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
@@ -47,27 +48,23 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
         #region Constructors
         protected FungibleWallet()
         {
-            SyncSupportedFungibleAssets();
         }
         #endregion
 
         #region Methods
-        private void SyncSupportedFungibleAssets()
+        public bool CanCoverAssetAmount(FungibleAsset asset, decimal amount)
         {
-            foreach (var item in _allFungible)
-            {
-                if (!_balances.ContainsKey(item))
-                    _balances.Add(item, 0);
-            }
-        }
-
-        public bool ReduceAssetAmount(FungibleAsset asset, decimal amount)
-        {
-            SyncSupportedFungibleAssets();
             if (!SupportedFungibleAssets.Contains(asset.Address))
                 throw new InvalidOperationException("Fungible asset does not exist.");
 
             if (_balances[asset.Address] < amount)
+                return false;
+            return true;
+        }
+
+        public bool ReduceAssetAmount(FungibleAsset asset, decimal amount)
+        {
+            if (!CanCoverAssetAmount(asset, amount))
                 return false;
             _balances[asset.Address] -= amount;
             return true;
@@ -75,11 +72,21 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
 
         public void IncreaseAssetAmount(FungibleAsset asset, decimal amount)
         {
-            SyncSupportedFungibleAssets();
             if (!SupportedFungibleAssets.Contains(asset.Address))
                 throw new InvalidOperationException("Fungible asset does not exist.");
-
             _balances[asset.Address] += amount;
+        }
+
+        public void RevokeFungibleTransaction(FungibleAssetTransaction transaction)
+        {
+            if(transaction.Sender == Address)
+            {
+                _balances[transaction.AssetAddress] += transaction.BalanceSenderBefore-transaction.BalanceSenderAfter;
+            }
+            if(transaction.Reciever == Address)
+            {
+                _balances[transaction.AssetAddress] += transaction.BalanceRecieverBefore-transaction.BalanceRecieverAfter;
+            }
         }
         #endregion
     }

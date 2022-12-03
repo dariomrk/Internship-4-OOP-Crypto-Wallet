@@ -1,4 +1,5 @@
 ﻿using Internship_4_OOP_Crypto_Wallet.Classes.Assets;
+using Internship_4_OOP_Crypto_Wallet.Classes.Transactions;
 using Internship_4_OOP_Crypto_Wallet.Interfaces;
 
 namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
@@ -7,37 +8,33 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
     {
         #region Fields
         private List<Guid> _ownedNonFungibleAssets = new();
-        private List<Guid> _supportedNonFungibleAssets = new();
         #endregion
 
         #region Properties
-        public Guid[] OwnedNonFungibleAssets => throw new NotImplementedException();
-        public Guid[] SupportedNonFungibleAssets => throw new NotImplementedException();
+        public Guid[] OwnedNonFungibleAssets => _ownedNonFungibleAssets.ToArray();
+        public Guid[] SupportedNonFungibleAssets => _allNonFungible.ToArray();
         #endregion
 
         #region Constructors
         protected FungibleAndNonFungibleWallet() : base()
         {
-            SyncSupportedNonFungibleAssets();
+
         }
         #endregion
 
         #region Methods
-        private void SyncSupportedNonFungibleAssets()
+        public bool OwnsAsset(NonFungibleAsset asset)
         {
-            foreach (var item in _allNonFungible)
-            {
-                if (_supportedNonFungibleAssets.Contains(item))
-                    _supportedNonFungibleAssets.Add(item);
-            }
+            if (!SupportedNonFungibleAssets.Contains(asset.Address))
+                throw new InvalidOperationException("Non fungible asset does not exist.");
+            if (!_ownedNonFungibleAssets.Contains(asset.Address))
+                return false;
+            return true;
         }
 
         public bool RemoveAsset(NonFungibleAsset asset)
         {
-            SyncSupportedNonFungibleAssets();
-            if (!SupportedNonFungibleAssets.Contains(asset.Address))
-                throw new InvalidOperationException("Non fungible asset does not exist.");
-            if(!_ownedNonFungibleAssets.Contains(asset.Address))
+            if (!OwnsAsset(asset))
                 return false;
             _ownedNonFungibleAssets.Remove(asset.Address);
             return true;
@@ -45,10 +42,25 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
 
         public void AddAsset(NonFungibleAsset asset)
         {
-            SyncSupportedNonFungibleAssets();
-            if (!SupportedNonFungibleAssets.Contains(asset.Address))
-                throw new InvalidOperationException("Non fungible asset does not exist.");
+            OwnsAsset(asset); // Just to check wether the asset even exists.
             _ownedNonFungibleAssets.Add(asset.Address);
+        }
+
+        public void RevokeNonFungibleTransaction(NonFungibleAssetTransaction transaction)
+        {
+            // TODO Test thoroughly, possible null reference, possible cast exception
+            if(transaction.Sender == Address)
+            {
+                if (OwnedNonFungibleAssets.Contains(transaction.AssetAddress))
+                    return;
+                AddAsset((NonFungibleAsset)Asset.GetAsset(transaction.AssetAddress));
+            }
+            if (transaction.Reciever == Address)
+            {
+                if (!OwnedNonFungibleAssets.Contains(transaction.AssetAddress))
+                    return;
+                RemoveAsset((NonFungibleAsset)Asset.GetAsset(transaction.AssetAddress));
+            }
         }
         #endregion
     }

@@ -29,7 +29,9 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
         #endregion
 
         #region Constructors
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public FungibleAsset(string name, decimal value, string label) : base(name, value)
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             FungibleWallet.AddSupport(this);
             Label = label;

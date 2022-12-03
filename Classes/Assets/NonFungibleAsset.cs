@@ -5,7 +5,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
     public sealed class NonFungibleAsset : Asset
     {
         #region Fields
-        private FungibleAsset _fungibleAsset;
+        private FungibleAsset _fungibleAsset; // ? Not used
         #endregion
 
         #region Properties
@@ -14,10 +14,8 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
         #region Constructors
         public NonFungibleAsset(string name, decimal value, FungibleAsset fungibleAsset) : base(name, value)
         {
-            if (fungibleAsset == null)
-                throw new ArgumentNullException("Parameter fungibleAsset cannot be null.");
             FungibleWallet.AddSupport(this);
-            _fungibleAsset=fungibleAsset;
+            _fungibleAsset=fungibleAsset ?? throw new ArgumentNullException("Parameter fungibleAsset cannot be null.");
         }
         #endregion
 

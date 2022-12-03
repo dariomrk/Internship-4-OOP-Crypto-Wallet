@@ -1,4 +1,5 @@
 ﻿using Internship_4_OOP_Crypto_Wallet.Classes.Wallets;
+using Internship_4_OOP_Crypto_Wallet.Interfaces;
 
 namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
 {
@@ -6,9 +7,27 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
     {
         #region Static members
         /// <summary>
+        /// Contains all assets.
+        /// </summary>
+        protected static readonly Dictionary<Guid, Asset> _allAssets = new();
+
+        /// <summary>
+        /// Returns an asset object given the address.
+        /// </summary>
+        /// <param name="assetAddress"></param>
+        /// <returns>Reference to the asset object.</returns>
+        public static Asset? GetAsset(Guid assetAddress)
+        {
+            if(_allAssets.ContainsKey(assetAddress))
+                return _allAssets[assetAddress];
+            return null;
+        }
+
+        /// <summary>
         ///  A set of names and labels currently in use.
         /// </summary>
         private static readonly HashSet<string> _namesLabels = new();
+
         /// <summary>
         /// Check wether the given value is unique, i.e. not in use.
         /// </summary>
@@ -18,6 +37,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
         {
             return !_namesLabels.Contains(value);
         }
+
         /// <summary>
         /// Tries to remove the given value. Used during deletion or modification of a name or label.
         /// </summary>
@@ -28,6 +48,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
         {
             return _namesLabels.Remove(value);
         }
+
         /// <summary>
         /// Tries to add the given value. Used during creation of a new name or label.
         /// </summary>
@@ -66,11 +87,14 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
         #endregion
 
         #region Constructors
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         protected Asset(string name, decimal value)
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             _address = Guid.NewGuid();
             Name = name;
             Value = value;
+            _allAssets.Add(this.Address,this);
         }
         #endregion
 
