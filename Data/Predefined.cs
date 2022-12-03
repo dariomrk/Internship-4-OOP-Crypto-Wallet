@@ -5,9 +5,9 @@ using static Internship_4_OOP_Crypto_Wallet.Utils.Helpers;
 
 namespace Internship_4_OOP_Crypto_Wallet.Data
 {
-    public static class Data
+    public static class Predefined
     {
-        public static IWallet[] predefinedWallets = new IWallet[]
+        public static IWallet[] wallets = new IWallet[]
         {
             new BitcoinWallet(),
             new BitcoinWallet(),
@@ -20,7 +20,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Data
             new SolanaWallet(),
         };
 
-        public static FungibleAsset[] predefinedFungibleAssets = new FungibleAsset[]
+        public static FungibleAsset[] fungibleAssets = new FungibleAsset[]
         {
             new FungibleAsset("Bitcoin",16376m,"BTC"),
             new FungibleAsset("Ethereum",1207m,"ETH"),
@@ -34,98 +34,97 @@ namespace Internship_4_OOP_Crypto_Wallet.Data
             new FungibleAsset("Polkadot",5.26m,"DOT"),
         };
 
-        public static NonFungibleAsset[] predefinedNonFungibleAssets = new NonFungibleAsset[]
+        public static NonFungibleAsset[] nonFungibleAssets = new NonFungibleAsset[]
         {
             new NonFungibleAsset("Cel Mates by Mcbess",
-                FindByLabel(predefinedFungibleAssets,
+                FindByLabel(fungibleAssets,
                     "ETH")!,
                 0.45m),
             new NonFungibleAsset("Cel Mates Crime Reports",
-                FindByLabel(predefinedFungibleAssets,
+                FindByLabel(fungibleAssets,
                     "ETH")!,
                 0.65m
                 ),
             new NonFungibleAsset("Mystery of Chessboxing by anon",
-                FindByLabel(predefinedFungibleAssets,
+                FindByLabel(fungibleAssets,
                     "ETH")!,
                 0.1m
                 ),
             new NonFungibleAsset("Non-Fungible Moons",
-                FindByLabel(predefinedFungibleAssets,
+                FindByLabel(fungibleAssets,
                     "ETH")!,
                 0.15m
                 ),
             new NonFungibleAsset("Cel Mates Crime Reports",
-                FindByLabel(predefinedFungibleAssets,
+                FindByLabel(fungibleAssets,
                     "ETH")!,
                 0.65m
                 ),
             new NonFungibleAsset("Crypto Unicorns Market",
-                FindByLabel(predefinedFungibleAssets,
+                FindByLabel(fungibleAssets,
                     "MATIC")!,
                 0.01m
                 ),
             new NonFungibleAsset("Crypto Unicorns Land Market",
-                FindByLabel(predefinedFungibleAssets,
+                FindByLabel(fungibleAssets,
                     "MATIC")!,
                 0.03m
                 ),
             new NonFungibleAsset("Baby BAB Family",
-                FindByLabel(predefinedFungibleAssets,
+                FindByLabel(fungibleAssets,
                     "BNB")!,
                 0.06m
                 ),
             new NonFungibleAsset("FireFoxNFTs",
-                FindByLabel(predefinedFungibleAssets,
+                FindByLabel(fungibleAssets,
                     "BNB")!,
                 0.65m
                 ),
             new NonFungibleAsset("YuliMysteryBox",
-                FindByLabel(predefinedFungibleAssets,
+                FindByLabel(fungibleAssets,
                     "BNB")!,
                 7m
                 ),
             new NonFungibleAsset("Mutant Ape Yacht Club",
-                FindByLabel(predefinedFungibleAssets,
+                FindByLabel(fungibleAssets,
                     "ETH")!,
                 13.75m),
             new NonFungibleAsset("Bored Ape Yacht Club",
-                FindByLabel(predefinedFungibleAssets,
+                FindByLabel(fungibleAssets,
                     "ETH")!,
                 68.9m),
             new NonFungibleAsset("Azuki",
-                FindByLabel(predefinedFungibleAssets,
+                FindByLabel(fungibleAssets,
                     "ETH")!,
                 11.49m),
             new NonFungibleAsset("Abstraction by anon",
-                FindByLabel(predefinedFungibleAssets,
+                FindByLabel(fungibleAssets,
                     "ETH")!,
                 1.45m),
             new NonFungibleAsset("The Memes by 6529",
-                FindByLabel(predefinedFungibleAssets,
+                FindByLabel(fungibleAssets,
                     "ETH")!,
                 0.25m),
             new NonFungibleAsset("Valhalla",
-                FindByLabel(predefinedFungibleAssets,
+                FindByLabel(fungibleAssets,
                     "ETH")!,
                 0.74m),
             new NonFungibleAsset("Doodles",
-                FindByLabel(predefinedFungibleAssets,
+                FindByLabel(fungibleAssets,
                     "ETH")!,
                 7m),
             new NonFungibleAsset("Bored Ape Kennel Club",
-                FindByLabel(predefinedFungibleAssets,
+                FindByLabel(fungibleAssets,
                     "ETH")!,
                 6.2m),
             new NonFungibleAsset("Pudgy Penguins",
-                FindByLabel(predefinedFungibleAssets,
+                FindByLabel(fungibleAssets,
                     "ETH")!,
                 3.5m),
             new NonFungibleAsset("Decentraland",
-                FindByLabel(predefinedFungibleAssets,
+                FindByLabel(fungibleAssets,
                     "ETH")!,
                 1.3m),
         };
-
     }
 }
