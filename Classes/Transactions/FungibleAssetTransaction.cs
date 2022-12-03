@@ -44,8 +44,8 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Transactions
             ISupportsFungible sender,
             ISupportsFungible reciever) : base(asset.Address, sender, reciever)
         {
-            _balanceSenderBefore = Helpers.GetAmountFromBalances(asset.Address, sender);
-            _balanceRecieverBefore = Helpers.GetAmountFromBalances(asset.Address, reciever);
+            _balanceSenderBefore = Helpers.FindAmount(asset.Address, sender);
+            _balanceRecieverBefore = Helpers.FindAmount(asset.Address, reciever);
 
             if (!sender.CanCoverAssetAmount(asset, amount))
                 throw new InvalidOperationException("Sender is not able to cover the cost of this transaction.");
@@ -53,8 +53,8 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Transactions
             reciever.IncreaseAssetAmount(asset, amount);
             sender.IncreaseAssetAmount(asset, amount);
 
-            _balanceSenderAfter = Helpers.GetAmountFromBalances(asset.Address, sender);
-            _balanceRecieverAfter = Helpers.GetAmountFromBalances(asset.Address, reciever);
+            _balanceSenderAfter = Helpers.FindAmount(asset.Address, sender);
+            _balanceRecieverAfter = Helpers.FindAmount(asset.Address, reciever);
         }
         #endregion
 
