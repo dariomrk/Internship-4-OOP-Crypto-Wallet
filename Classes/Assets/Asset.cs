@@ -97,7 +97,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
                 }
             }
         }
-        public decimal PreviousValueUSD
+        public virtual decimal PreviousValueUSD
         {
             get
             {
@@ -120,13 +120,13 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
             _usdValueSnapshots = new();
             Name = name;
             _address = Guid.NewGuid();
-            StoreValueSnapshot(value);
+            StoreValue(value);
             _allAssets.Add(this.Address, this);
         }
         #endregion
 
         #region Methods
-        protected void StoreValueSnapshot(decimal value)
+        protected virtual void StoreValue(decimal value)
         {
             _usdValueSnapshots.AddLast(value);
         }
@@ -143,7 +143,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
             double randNormal = mean + stdDeviation * randStdNormal;
 
             decimal newValue = ValueUSD + ValueUSD * (decimal)randNormal;
-            StoreValueSnapshot(newValue);
+            StoreValue(newValue);
         }
         #endregion
     }

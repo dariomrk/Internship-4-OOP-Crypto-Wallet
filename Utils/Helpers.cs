@@ -21,8 +21,5 @@ namespace Internship_4_OOP_Crypto_Wallet.Utils
         {
             return (final - initial) * initial / 10000;
         }
-
-        public static decimal ConvertToUSDCountervalue(FungibleAsset asset, decimal amount)
-            => asset.ValueUSD * amount;
     }
 }

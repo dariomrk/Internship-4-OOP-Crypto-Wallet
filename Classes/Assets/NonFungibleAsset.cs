@@ -13,13 +13,28 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
         #region Properties
         public Guid TiedFungibleAssetAddress { get => _tiedFungibleAsset.Address; }
         public decimal AmountOfTiedFungibleAsset { get => _amountOfTiedFungibleAsset; }
+
+        public override decimal ValueUSD
+        {
+            get
+            {
+                return _tiedFungibleAsset.ValueUSD * _amountOfTiedFungibleAsset;
+            }
+        }
+        public override decimal PreviousValueUSD
+        {
+            get
+            {
+                return _tiedFungibleAsset.PreviousValueUSD * _amountOfTiedFungibleAsset;
+            }
+        }
         #endregion
 
         #region Constructors
         public NonFungibleAsset(string name,
             FungibleAsset tiedFungibleAsset,
             decimal tiedFungibleAssetAmount) : base(name,
-                ConvertToUSDCountervalue(tiedFungibleAsset,tiedFungibleAssetAmount))
+                tiedFungibleAsset.ValueUSD * tiedFungibleAssetAmount)
         {
             BaseWallet.AddSupport(this);
             _tiedFungibleAsset=tiedFungibleAsset
