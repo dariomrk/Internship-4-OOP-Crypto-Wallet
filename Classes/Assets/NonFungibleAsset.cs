@@ -1,4 +1,5 @@
 ﻿using Internship_4_OOP_Crypto_Wallet.Classes.Wallets;
+using static Internship_4_OOP_Crypto_Wallet.Utils.Helpers;
 
 namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
 {
@@ -6,23 +7,24 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
     {
         #region Fields
         private FungibleAsset _tiedFungibleAsset;
-        private decimal _tiedFungibleAssetValue;
+        private decimal _amountOfTiedFungibleAsset;
         #endregion
 
         #region Properties
         public Guid TiedFungibleAssetAddress { get => _tiedFungibleAsset.Address; }
-        public decimal TiedFungibleAssetValue { get => _tiedFungibleAssetValue; }
+        public decimal AmountOfTiedFungibleAsset { get => _amountOfTiedFungibleAsset; }
         #endregion
 
         #region Constructors
         public NonFungibleAsset(string name,
             FungibleAsset tiedFungibleAsset,
-            decimal tiedFungibleAssetAmount) : base(name, 0m)
+            decimal tiedFungibleAssetAmount) : base(name,
+                ConvertToUSDCountervalue(tiedFungibleAsset,tiedFungibleAssetAmount))
         {
             BaseWallet.AddSupport(this);
             _tiedFungibleAsset=tiedFungibleAsset
                 ?? throw new ArgumentNullException("Parameter fungibleAsset cannot be null.");
-            _tiedFungibleAssetValue = tiedFungibleAssetAmount;
+            _amountOfTiedFungibleAsset = tiedFungibleAssetAmount;
         }
         #endregion
 

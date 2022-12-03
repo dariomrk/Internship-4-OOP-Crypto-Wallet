@@ -10,5 +10,19 @@ namespace Internship_4_OOP_Crypto_Wallet.Utils
 
         public static FungibleAsset? FindByLabel(FungibleAsset[] assets, string label)
             => assets.First(x => x.Label == label);
+
+        /// <summary>
+        /// Returns a percentage difference between the initial and final value.
+        /// </summary>
+        /// <param name="initial"></param>
+        /// <param name="final"></param>
+        /// <returns>Decimal number representing a percentage. 1 represents 100%, 0.5 represents 50% etc.</returns>
+        public static decimal CalculatePercentDifference(decimal initial, decimal final)
+        {
+            return (final - initial) * initial / 10000;
+        }
+
+        public static decimal ConvertToUSDCountervalue(FungibleAsset asset, decimal amount)
+            => asset.ValueUSD * amount;
     }
 }

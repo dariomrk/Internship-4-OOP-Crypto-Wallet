@@ -18,7 +18,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
         /// <returns>Reference to the asset object.</returns>
         public static Asset? GetAsset(Guid assetAddress)
         {
-            if(_allAssets.ContainsKey(assetAddress))
+            if (_allAssets.ContainsKey(assetAddress))
                 return _allAssets[assetAddress];
             return null;
         }
@@ -63,7 +63,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
         #region Fields
         private readonly Guid _address;
         private string _name;
-        private decimal _value;
+        private LinkedList<decimal> _usdValueSnapshots;
         #endregion
 
         #region Properties
@@ -83,20 +83,68 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
                 throw new InvalidOperationException("Name property must be unique.");
             }
         }
-        public decimal ValueUSD { get => _value; protected set { _value = value; } }
+        public virtual decimal ValueUSD
+        {
+            get
+            {
+                try
+                {
+                    return _usdValueSnapshots.Last.Value;
+                }
+                catch (Exception)
+                {
+                    return 0;
+                }
+            }
+        }
+        public decimal PreviousValueUSD
+        {
+            get
+            {
+                try
+                {
+                    return _usdValueSnapshots.Last.Previous.Value;
+
+                }
+                catch (Exception)
+                {
+                    return 0;
+                }
+            }
+        }
         #endregion
 
         #region Constructors
         protected Asset(string name, decimal value)
         {
-            _address = Guid.NewGuid();
+            _usdValueSnapshots = new();
             Name = name;
-            ValueUSD = value;
-            _allAssets.Add(this.Address,this);
+            _address = Guid.NewGuid();
+            StoreValueSnapshot(value);
+            _allAssets.Add(this.Address, this);
         }
         #endregion
 
         #region Methods
+        protected void StoreValueSnapshot(decimal value)
+        {
+            _usdValueSnapshots.AddLast(value);
+        }
+
+        public void RandomlyChangeValue()
+        {
+            // Box-Muller transform
+            Random r = new();
+            double mean = 0;
+            double stdDeviation = 0.1;
+            double u1 = 1.0 - r.NextDouble();
+            double u2 = 1.0 - r.NextDouble();
+            double randStdNormal = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2);
+            double randNormal = mean + stdDeviation * randStdNormal;
+
+            decimal newValue = ValueUSD + ValueUSD * (decimal)randNormal;
+            StoreValueSnapshot(newValue);
+        }
         #endregion
     }
 }
