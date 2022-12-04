@@ -1,6 +1,7 @@
 ﻿using Internship_4_OOP_Crypto_Wallet.Classes.Assets;
 using Internship_4_OOP_Crypto_Wallet.Classes.Transactions;
 using Internship_4_OOP_Crypto_Wallet.Interfaces;
+using static Internship_4_OOP_Crypto_Wallet.Utils.Helpers;
 using static Internship_4_OOP_Crypto_Wallet.Enums.Wallet;
 
 namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
@@ -25,6 +26,8 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
         private List<ITransaction> _transactions = new();
         private Dictionary<Guid, decimal> _balances = new();
         private WalletType _type;
+        private decimal _previousPortfolioValueUSD;
+        private decimal _portfolioValueUSD;
         #endregion
 
         #region Properties
@@ -51,6 +54,11 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
         protected BaseWallet(WalletType type)
         {
             _type = type;
+            foreach(var f in _allFungible)
+            {
+                _balances.Add(f, 0);
+            }
+            UpdatePortfolioValue();
         }
         #endregion
 
@@ -70,6 +78,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
             if (!CanCoverAssetAmount(asset, amount))
                 return false;
             _balances[asset.Address] -= amount;
+            UpdatePortfolioValue();
             return true;
         }
 
@@ -78,6 +87,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
             if (!SupportedFungibleAssets.Contains(asset.Address))
                 throw new InvalidOperationException("Fungible asset does not exist.");
             _balances[asset.Address] += amount;
+            UpdatePortfolioValue();
         }
 
         public void RevokeFungibleTransaction(FungibleAssetTransaction transaction)
@@ -86,17 +96,37 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
             {
                 _balances[transaction.AssetAddress] += transaction.BalanceSenderBefore-transaction.BalanceSenderAfter;
             }
-            if(transaction.Reciever == Address)
+            if (transaction.Reciever == Address)
             {
                 _balances[transaction.AssetAddress] += transaction.BalanceRecieverBefore-transaction.BalanceRecieverAfter;
             }
+            else
+                return;
+            UpdatePortfolioValue();
+        }
+
+        protected void UpdatePortfolioValue()
+        {
+            _previousPortfolioValueUSD = _portfolioValueUSD;
+            decimal sum = 0;
+            foreach (var address in _balances.Keys)
+            {
+                Asset a = Asset.GetAsset(address)!;
+                sum += a.ValueUSD * _balances[address];
+            }
+            _portfolioValueUSD = sum;
         }
 
         public override string ToString()
         {
+
+            decimal diff = CalculatePercentDifference(_previousPortfolioValueUSD,_portfolioValueUSD);
             // TODO Implement fully
-            return $"{Type} " +
-                $"{Address} ";
+            // Could probably reuse a bunch of stuff for "PORTFOLIO"
+            return $"Wallet type: {Type}\n" +
+                $"Wallet address: {Address}\n" +
+                $"Total assets value: {_portfolioValueUSD.ToString("F")} $\n" +
+                $"Percentage change: {diff.ToString("F")} %\n";
         }
         #endregion
     }

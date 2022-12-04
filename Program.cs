@@ -1,44 +1,27 @@
-﻿using Internship_4_OOP_Crypto_Wallet.Utils;
+﻿using Internship_4_OOP_Crypto_Wallet.Classes.Wallets;
+using Internship_4_OOP_Crypto_Wallet.Enums;
 using static Internship_4_OOP_Crypto_Wallet.Data.Predefined;
+using static Internship_4_OOP_Crypto_Wallet.Utils.Helpers;
 namespace Internship_4_OOP_Crypto_Wallet
 {
     public class Program
     {
         static void Main()
         {
-            // TODO Remove later, testing purposes only!
-
-            Console.WriteLine($"Fungible assets: {fungibleAssets.Length}");
-            foreach (var f in fungibleAssets)
-                Console.WriteLine(f.Address + "\t" + f.Name.PadRight(20)  + "\t" + f.Label.PadRight(5) + "\t" + f.ValueUSD + " $");
-            Console.WriteLine();
-            Console.WriteLine($"Non fungible assets: {nonFungibleAssets.Length}");
-            foreach (var n in nonFungibleAssets)
-                Console.WriteLine(n.Address + "\t" + n.Name.PadRight(30) + "\t" + n.ValueUSD + " $");
-            Console.WriteLine();
-
-            foreach (var item in fungibleAssets)
+            foreach (BaseWallet w in wallets)
             {
-                item.RandomlyChangeValue();
+                Console.WriteLine(w);
             }
-
-            Console.WriteLine($"Fungible assets: {fungibleAssets.Length}");
-            foreach (var f in fungibleAssets)
-                Console.WriteLine(f.Address + "\t" + f.Name.PadRight(20)  + "\t" + f.Label.PadRight(5) + "\t" + f.ValueUSD + " $");
-            Console.WriteLine();
-            Console.WriteLine($"Non fungible assets: {nonFungibleAssets.Length}");
-            foreach (var n in nonFungibleAssets)
-                Console.WriteLine(n.Address + "\t" + n.Name.PadRight(30) + "\t" + n.ValueUSD + " $");
-            Console.WriteLine();
-
-            Console.WriteLine($"Fungible assets: {fungibleAssets.Length}");
-            foreach (var f in fungibleAssets)
-                Console.WriteLine(f.Address + "\t" + f.Name.PadRight(20)  + "\t" + f.Label.PadRight(5) + "\t" + f.PreviousValueUSD + " $");
-            Console.WriteLine();
-            Console.WriteLine($"Non fungible assets: {nonFungibleAssets.Length}");
-            foreach (var n in nonFungibleAssets)
-                Console.WriteLine(n.Address + "\t" + n.Name.PadRight(30) + "\t" + n.PreviousValueUSD + " $");
-            Console.WriteLine();
+            foreach (BaseWallet w in wallets)
+            {
+                w.IncreaseAssetAmount(fungibleAssets[2], 100);
+                Console.WriteLine(w) ;
+            }
+            foreach (BaseWallet w in wallets)
+            {
+                w.IncreaseAssetAmount(fungibleAssets[2], 100);
+                Console.WriteLine(w);
+            }
         }
     }
 }
