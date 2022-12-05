@@ -145,6 +145,12 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
             decimal newValue = ValueUSD + ValueUSD * (decimal)randNormal;
             StoreValue(newValue);
         }
+
+        public override string ToString()
+        {
+            return $"Address: {Address}\n" +
+                $"Name: {Name}";
+        }
         #endregion
     }
 }

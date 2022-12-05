@@ -58,7 +58,9 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
             }
         }
         public Guid[] SupportedFungibleAssets => _allFungible.ToArray();
-        public string Type => _type.ToString();
+        public WalletType Type => _type;
+        decimal IWallet.PreviousValueUSD => _previousPortfolioValueUSD;
+        decimal IWallet.ValueUSD => _portfolioValueUSD;
         #endregion
 
         #region Constructors
