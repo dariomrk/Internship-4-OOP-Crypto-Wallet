@@ -16,7 +16,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
         public Guid[] OwnedNonFungibleAssets => _ownedNonFungibleAssets.ToArray();
         public Guid[] SupportedNonFungibleAssets => _allNonFungible.ToArray();
 
-        public override decimal ValueUSD
+        public override decimal PortfolioValueUSD
         {
             get
             {
@@ -28,11 +28,11 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
                     sumNonFungible += a.ValueUSD;
                 }
 
-                return base.ValueUSD + sumNonFungible;
+                return base.PortfolioValueUSD + sumNonFungible;
             }
         }
 
-        public override decimal PreviousValueUSD
+        public override decimal PreviousPortfolioValueUSD
         {
             get
             {
@@ -44,7 +44,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
                     sumNonFungible += a.PreviousValueUSD;
                 }
 
-                return base.PreviousValueUSD + sumNonFungible;
+                return base.PreviousPortfolioValueUSD + sumNonFungible;
             }
         }
         #endregion
@@ -100,10 +100,10 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
         public override string ToString()
         {
 
-            decimal diff = CalculatePercentDifference(PreviousValueUSD,ValueUSD);
+            decimal diff = CalculatePercentDifference(PreviousPortfolioValueUSD,PortfolioValueUSD);
             return $"Wallet type: {Type}\n" +
                 $"Wallet address: {Address}\n" +
-                $"Total assets value: {ValueUSD.ToString("F")} $\n" +
+                $"Total assets value: {PortfolioValueUSD.ToString("F")} $\n" +
                 $"Percentage change: {diff.ToString("F")} %";
         }
         #endregion

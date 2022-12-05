@@ -63,7 +63,8 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
         #region Fields
         private readonly Guid _address;
         private string _name;
-        private LinkedList<decimal> _usdValueSnapshots;
+        protected decimal _previousValueUSD;
+        protected decimal _currentValueUSD;
         #endregion
 
         #region Properties
@@ -83,51 +84,26 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
                 throw new InvalidOperationException("Name property must be unique.");
             }
         }
-        public virtual decimal ValueUSD
-        {
-            get
-            {
-                try
-                {
-                    return _usdValueSnapshots.Last.Value;
-                }
-                catch (Exception)
-                {
-                    return 0;
-                }
-            }
-        }
-        public virtual decimal PreviousValueUSD
-        {
-            get
-            {
-                try
-                {
-                    return _usdValueSnapshots.Last.Previous.Value;
-                }
-                catch (Exception)
-                {
-                    return 0;
-                }
-            }
-        }
+        public virtual decimal ValueUSD => _currentValueUSD;
+
+        public virtual decimal PreviousValueUSD => _previousValueUSD;
         #endregion
 
         #region Constructors
         protected Asset(string name, decimal value)
         {
-            _usdValueSnapshots = new();
+            _previousValueUSD = 0m;
+            _currentValueUSD = value;
             Name = name;
             _address = Guid.NewGuid();
-            StoreValue(value);
             _allAssets.Add(this.Address, this);
         }
         #endregion
 
         #region Methods
-        protected virtual void StoreValue(decimal value)
+        public virtual void ViewedValue()
         {
-            _usdValueSnapshots.AddLast(value);
+            _previousValueUSD = _currentValueUSD;
         }
 
         public void RandomlyChangeValue()
@@ -142,7 +118,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
             double randNormal = mean + stdDeviation * randStdNormal;
 
             decimal newValue = ValueUSD + ValueUSD * (decimal)randNormal;
-            StoreValue(newValue);
+            _currentValueUSD = newValue;
         }
 
         public override string ToString()

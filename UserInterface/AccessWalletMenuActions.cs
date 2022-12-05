@@ -11,6 +11,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
     {
         public static void Portfolio()
         {
+            // TODO Clean code?
             Clear();
             if (selectedWallet.Type == WalletType.BitcoinWallet)
             {
@@ -21,7 +22,9 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
                     if (balance.Amount != 0)
                     {
                         HorizontalSeparator();
-                        WriteLine((FungibleAsset)Asset.GetAsset(balance.AssetAddress)!);
+                        FungibleAsset a = (FungibleAsset)Asset.GetAsset(balance.AssetAddress)!;
+                        WriteLine(a);
+                        a.ViewedValue();
                         WriteLine($"Amount: {balance.Amount}");
                         WriteLine($"Total: {balance.Amount * Asset.GetAsset(balance.AssetAddress)!.ValueUSD} $");
                     }
@@ -31,7 +34,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
                 else
                 {
                     AltHorizontalSeparator();
-                    WriteLine($"Portfolio value: {w.ValueUSD} $");
+                    WriteLine($"Portfolio value: {w.PortfolioValueUSD} $");
                 }
 
                 WaitForUserInput();
@@ -46,7 +49,9 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
                     if (balance.Amount != 0)
                     {
                         HorizontalSeparator();
-                        WriteLine((FungibleAsset)Asset.GetAsset(balance.AssetAddress)!);
+                        FungibleAsset a = (FungibleAsset)Asset.GetAsset(balance.AssetAddress)!;
+                        WriteLine(a);
+                        a.ViewedValue();
                         WriteLine($"Amount: {balance.Amount}");
                         WriteLine($"Total: {balance.Amount * Asset.GetAsset(balance.AssetAddress)!.ValueUSD} $");
                     }
@@ -64,7 +69,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
                     WriteWarning("There are no owned non fungible assets.", false);
                 else
                     AltHorizontalSeparator();
-                WriteLine($"Portfolio value: {w.ValueUSD} $");
+                WriteLine($"Portfolio value: {w.PortfolioValueUSD} $");
                 WaitForUserInput();
             }
         }
