@@ -138,7 +138,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
             return $"Wallet type: {Type}\n" +
                 $"Wallet address: {Address}\n" +
                 $"Total assets value: {_portfolioValueUSD.ToString("F")} $\n" +
-                $"Percentage change: {diff.ToString("F")} %\n";
+                $"Percentage change: {diff.ToString("F")} %";
         }
         #endregion
     }

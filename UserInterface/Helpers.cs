@@ -1,7 +1,5 @@
-﻿using Internship_4_OOP_Crypto_Wallet.Classes.Wallets;
+﻿using static System.Console;
 using Internship_4_OOP_Crypto_Wallet.Interfaces;
-using static Internship_4_OOP_Crypto_Wallet.Enums.Wallet;
-using static System.Console;
 
 namespace Internship_4_OOP_Crypto_Wallet.UserInterface
 {
@@ -12,13 +10,31 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
             WriteLine("Press any key to continue...");
             ReadKey();
         }
-
-        public static void WriteError(string warning)
+        
+        public static void WriteSuccess(string message)
+        {
+            BackgroundColor = ConsoleColor.Green;
+            ForegroundColor = ConsoleColor.Black;
+            WriteLine("Success: " + message);
+            ResetColor();
+        }
+        public static void WriteError(string message, bool wait = true)
         {
             ForegroundColor = ConsoleColor.Red;
-            WriteLine("Error! " + warning);
+            WriteLine("Error! " + message);
             ResetColor();
-            WaitForUserInput();
+            if(wait)
+                WaitForUserInput();
+        }
+
+        public static void WriteWarning(string message, bool wait = true)
+        {
+            ForegroundColor = ConsoleColor.Black;
+            BackgroundColor = ConsoleColor.Yellow;
+            WriteLine("Warning: " + message);
+            ResetColor();
+            if(wait)
+                WaitForUserInput();
         }
 
         public static void Menu((string Alias, Action Action)[] menuItems)
@@ -51,7 +67,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
 
         public static void WriteBasicInfo(IWallet w)
         {
-            WriteLine($"Created. \n{w.Type} \nAddress: {w.Address}");
+            WriteLine($"{w.Type} \nAddress: {w.Address}");
         }
         
         public static bool TryGetAddressFromUser(out Guid address)

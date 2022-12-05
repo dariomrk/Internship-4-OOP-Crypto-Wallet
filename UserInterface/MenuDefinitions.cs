@@ -1,4 +1,6 @@
-﻿using static Internship_4_OOP_Crypto_Wallet.UserInterface.MenuActions;
+﻿using static Internship_4_OOP_Crypto_Wallet.UserInterface.MainMenuActions;
+using static Internship_4_OOP_Crypto_Wallet.UserInterface.CreateWalletMenuActions;
+using static Internship_4_OOP_Crypto_Wallet.UserInterface.AccessWalletMenuActions;
 
 namespace Internship_4_OOP_Crypto_Wallet.UserInterface
 {
@@ -11,7 +13,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
             ("Access wallet", AccessWalletMenu),
         };
 
-        public static readonly (string Alias, Action Action)[] selectWalletToCreate = new (string Alias, Action Action)[]
+        public static readonly (string Alias, Action Action)[] createWalletMenuItems = new (string Alias, Action Action)[]
         {
             ("Return", new Action(()=>{ Helpers.Menu(mainMenuItems); })),
             ("Bitcoin wallet", CreateBitcoinWallet),
@@ -22,6 +24,10 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
         public static readonly (string Alias, Action Action)[] accessWalletMenuItems = new (string Alias, Action Action)[]
         {
             ("Return", new Action(()=>{ Helpers.Menu(mainMenuItems); })),
+            ("Portfolio", Portfolio),
+            ("Transfer", Transfer),
+            ("Transaction History",TransactionHistory),
+            ("Revoke Transaction", RevokeTransaction),
         };
     }
 }

@@ -1,44 +1,19 @@
-﻿using Internship_4_OOP_Crypto_Wallet.Interfaces;
-using static Internship_4_OOP_Crypto_Wallet.Utils.Helpers;
-using static Internship_4_OOP_Crypto_Wallet.Enums.Wallet;
+﻿using static System.Console;
 using static Internship_4_OOP_Crypto_Wallet.UserInterface.Helpers;
 using static Internship_4_OOP_Crypto_Wallet.UserInterface.MenuDefinitons;
-using static System.Console;
+using Internship_4_OOP_Crypto_Wallet.Interfaces;
 using Internship_4_OOP_Crypto_Wallet.Classes.Wallets;
 
 namespace Internship_4_OOP_Crypto_Wallet.UserInterface
 {
-    public static class MenuActions
+    public static class MainMenuActions
     {
-        private static IWallet selectedWallet; // Used in AccessWallet.
+        public static IWallet selectedWallet = null; // TODO Sort this thing out
 
         public static void CreateWalletMenu()
         {
-            // TODO Implement
             Clear();
-
-            Menu(selectWalletToCreate);
-        }
-
-        public static void CreateBitcoinWallet()
-        {
-            Clear();
-            WriteBasicInfo(CreateWallet(WalletType.BitcoinWallet));
-            WaitForUserInput();
-        }
-
-        public static void CreateEthereumWallet()
-        {
-            Clear();
-            WriteBasicInfo(CreateWallet(WalletType.EthereumWallet));
-            WaitForUserInput();
-        }
-
-        public static void CreateSolanaWallet()
-        {
-            Clear();
-            WriteBasicInfo(CreateWallet(WalletType.SolanaWallet));
-            WaitForUserInput();
+            Menu(createWalletMenuItems);
         }
 
         public static void AccessWalletMenu()
@@ -49,10 +24,14 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
                 HorizontalSeparator();
                 WriteLine(BaseWallet.GetWallet(w));
             }
-            WaitForUserInput();
+            if (!BaseWallet.WalletAddresses().Any())
+            {
+                WriteWarning("There are no available wallets.");
+                return;
+            }
+            HorizontalSeparator();
 
-            Clear();
-            Write("Input wallet address: ");
+            Write("Input the address of the wallet you want to access: ");
             if (!TryGetAddressFromUser(out Guid walletAddress))
             {
                 WriteError("Invalid address format.");
