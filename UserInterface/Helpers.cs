@@ -49,25 +49,21 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
             }
         }
 
-        public static IWallet CreateWallet(WalletType w)
+        public static void WriteBasicInfo(IWallet w)
         {
-            switch (w)
-            {
-                case WalletType.BitcoinWallet:
-                    {
-                        return new BitcoinWallet();
-                    }
-                case WalletType.EthereumWallet:
-                    {
-                        return new EthereumWallet();
-                    }
-                case WalletType.SolanaWallet:
-                    {
-                        return new SolanaWallet();
-                    }
-                default:
-                    return null;
-            }
+            WriteLine($"Created. \n{w.Type} \nAddress: {w.Address}");
+        }
+        
+        public static bool TryGetAddressFromUser(out Guid address)
+        {
+            if (!Guid.TryParse(ReadLine(), out address))
+                return false;
+            return true;
+        }
+
+        public static void HorizontalSeparator()
+        {
+            WriteLine(new string('-',30));
         }
     }
 }

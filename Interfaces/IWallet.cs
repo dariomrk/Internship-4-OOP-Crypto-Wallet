@@ -3,5 +3,6 @@
     public interface IWallet
     {
         public Guid Address { get; }
+        public string Type { get; }
     }
 }

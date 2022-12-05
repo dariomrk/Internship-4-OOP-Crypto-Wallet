@@ -1,5 +1,7 @@
 ﻿using Internship_4_OOP_Crypto_Wallet.Classes.Assets;
+using Internship_4_OOP_Crypto_Wallet.Classes.Wallets;
 using Internship_4_OOP_Crypto_Wallet.Interfaces;
+using static Internship_4_OOP_Crypto_Wallet.Enums.Wallet;
 
 namespace Internship_4_OOP_Crypto_Wallet.Utils
 {
@@ -19,5 +21,32 @@ namespace Internship_4_OOP_Crypto_Wallet.Utils
         /// <returns>Decimal number representing a percentage.</returns>
         public static decimal CalculatePercentDifference(decimal initial, decimal final)
             => (final - initial) * initial /100;
+
+        /// <summary>
+        /// Wallet factory.
+        /// </summary>
+        /// <param name="w"></param>
+        /// <returns>IWallet of specified type.</returns>
+        public static IWallet CreateWallet(WalletType w)
+        {
+            switch (w)
+            {
+                case WalletType.BitcoinWallet:
+                    {
+                        return new BitcoinWallet();
+                    }
+                case WalletType.EthereumWallet:
+                    {
+                        return new EthereumWallet();
+                    }
+                case WalletType.SolanaWallet:
+                    {
+                        return new SolanaWallet();
+                    }
+                default:
+                    return null;
+            }
+        }
+
     }
 }

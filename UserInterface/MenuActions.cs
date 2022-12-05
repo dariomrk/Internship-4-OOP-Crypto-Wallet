@@ -1,9 +1,10 @@
-﻿using Internship_4_OOP_Crypto_Wallet.Classes.Wallets;
-using Internship_4_OOP_Crypto_Wallet.Interfaces;
+﻿using Internship_4_OOP_Crypto_Wallet.Interfaces;
+using static Internship_4_OOP_Crypto_Wallet.Utils.Helpers;
 using static Internship_4_OOP_Crypto_Wallet.Enums.Wallet;
 using static Internship_4_OOP_Crypto_Wallet.UserInterface.Helpers;
 using static Internship_4_OOP_Crypto_Wallet.UserInterface.MenuDefinitons;
 using static System.Console;
+using Internship_4_OOP_Crypto_Wallet.Classes.Wallets;
 
 namespace Internship_4_OOP_Crypto_Wallet.UserInterface
 {
@@ -22,34 +23,51 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
         public static void CreateBitcoinWallet()
         {
             Clear();
-            BitcoinWallet b = (BitcoinWallet) CreateWallet(WalletType.BitcoinWallet);
-            Write(b);
+            WriteBasicInfo(CreateWallet(WalletType.BitcoinWallet));
             WaitForUserInput();
         }
 
         public static void CreateEthereumWallet()
         {
-            // TODO Implement
+            Clear();
+            WriteBasicInfo(CreateWallet(WalletType.EthereumWallet));
+            WaitForUserInput();
         }
 
         public static void CreateSolanaWallet()
         {
-            // TODO Implement
+            Clear();
+            WriteBasicInfo(CreateWallet(WalletType.SolanaWallet));
+            WaitForUserInput();
         }
 
         public static void AccessWalletMenu()
         {
             Clear();
-            selectedWallet = null;
-            // TODO Output all wallets and connected info, then give option to input a wallet addres.
+            foreach (var w in BaseWallet.WalletAddresses())
+            {
+                HorizontalSeparator();
+                WriteLine(BaseWallet.GetWallet(w));
+            }
+            WaitForUserInput();
 
+            Clear();
+            Write("Input wallet address: ");
+            if (!TryGetAddressFromUser(out Guid walletAddress))
+            {
+                WriteError("Invalid address format.");
+                return;
+            }
+
+            selectedWallet = BaseWallet.GetWallet(walletAddress);
 
             if(selectedWallet == null)
             {
                 WriteError("No wallet selected. Please check if the wallet address was typed in correctly.");
                 return;
             }
-            // TODO Only if a valid wallet is selected show the menu below.
+
+            Clear();
             Menu(accessWalletMenuItems);
         }
     }
