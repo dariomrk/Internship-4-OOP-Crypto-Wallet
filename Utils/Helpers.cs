@@ -20,7 +20,13 @@ namespace Internship_4_OOP_Crypto_Wallet.Utils
         /// <param name="final"></param>
         /// <returns>Decimal number representing a percentage.</returns>
         public static decimal CalculatePercentDifference(decimal initial, decimal final)
-            => (final - initial) * initial /100;
+        {
+            if(initial != 0)
+            {
+                return (final - initial) / initial * 100;
+            }
+            return 0;
+        }
 
         /// <summary>
         /// Wallet factory.
