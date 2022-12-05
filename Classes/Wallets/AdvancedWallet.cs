@@ -1,7 +1,7 @@
 ﻿using Internship_4_OOP_Crypto_Wallet.Classes.Assets;
 using Internship_4_OOP_Crypto_Wallet.Classes.Transactions;
 using Internship_4_OOP_Crypto_Wallet.Interfaces;
-using static Internship_4_OOP_Crypto_Wallet.Enums.Wallet;
+using static Internship_4_OOP_Crypto_Wallet.Enums.Types;
 using static Internship_4_OOP_Crypto_Wallet.Utils.Helpers;
 
 namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets

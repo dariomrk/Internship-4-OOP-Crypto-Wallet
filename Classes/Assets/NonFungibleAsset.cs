@@ -1,4 +1,5 @@
 ﻿using Internship_4_OOP_Crypto_Wallet.Classes.Wallets;
+using static Internship_4_OOP_Crypto_Wallet.Enums.Types;
 using static Internship_4_OOP_Crypto_Wallet.Utils.Helpers;
 
 namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
@@ -34,7 +35,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
         public NonFungibleAsset(string name,
             FungibleAsset tiedFungibleAsset,
             decimal tiedFungibleAssetAmount) : base(name,
-                tiedFungibleAsset.ValueUSD * tiedFungibleAssetAmount)
+                tiedFungibleAsset.ValueUSD * tiedFungibleAssetAmount, AssetType.NonFungible)
         {
             BaseWallet.AddSupport(this);
             _tiedFungibleAsset=tiedFungibleAsset
@@ -44,6 +45,10 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
         #endregion
 
         #region Methods
+        public override void RandomlyChangeValue()
+        {
+            _tiedFungibleAsset.RandomlyChangeValue();
+        }
         public override string ToString()
         {
             decimal diff = CalculatePercentDifference(PreviousValueUSD, ValueUSD);

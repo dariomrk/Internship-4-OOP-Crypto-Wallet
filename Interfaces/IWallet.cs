@@ -1,4 +1,4 @@
-﻿using static Internship_4_OOP_Crypto_Wallet.Enums.Wallet;
+﻿using static Internship_4_OOP_Crypto_Wallet.Enums.Types;
 
 namespace Internship_4_OOP_Crypto_Wallet.Interfaces
 {
@@ -8,5 +8,6 @@ namespace Internship_4_OOP_Crypto_Wallet.Interfaces
         public WalletType Type { get; }
         public decimal PortfolioValueUSD { get; }
         public decimal PreviousPortfolioValueUSD { get; }
+        public ITransaction[] Transactions { get; }
     }
 }

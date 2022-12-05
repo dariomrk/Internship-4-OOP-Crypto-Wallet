@@ -1,5 +1,4 @@
-﻿using Internship_4_OOP_Crypto_Wallet.Classes.Wallets;
-using Internship_4_OOP_Crypto_Wallet.Interfaces;
+﻿using static Internship_4_OOP_Crypto_Wallet.Enums.Types;
 
 namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
 {
@@ -61,6 +60,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
         #endregion
 
         #region Fields
+        private AssetType _type;
         private readonly Guid _address;
         private string _name;
         protected decimal _previousValueUSD;
@@ -68,6 +68,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
         #endregion
 
         #region Properties
+        public AssetType Type => _type;
         public Guid Address => _address;
         public string Name
         {
@@ -90,8 +91,9 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
         #endregion
 
         #region Constructors
-        protected Asset(string name, decimal value)
+        protected Asset(string name, decimal value, AssetType type)
         {
+            _type = type;
             _previousValueUSD = 0m;
             _currentValueUSD = value;
             Name = name;
@@ -106,19 +108,17 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
             _previousValueUSD = _currentValueUSD;
         }
 
-        public void RandomlyChangeValue()
+        public virtual void RandomlyChangeValue()
         {
-            // Box-Muller transform
-            Random r = new();
-            double mean = 0;
-            double stdDeviation = 0.1;
-            double u1 = 1.0 - r.NextDouble();
-            double u2 = 1.0 - r.NextDouble();
-            double randStdNormal = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2);
-            double randNormal = mean + stdDeviation * randStdNormal;
+            _currentValueUSD = GetRandomValue(_currentValueUSD);
+        }
 
-            decimal newValue = ValueUSD + ValueUSD * (decimal)randNormal;
-            _currentValueUSD = newValue;
+        protected decimal GetRandomValue(decimal value)
+        {
+            Random r = new();
+            double d = r.NextDouble();
+            double final = d * (0.025 + 0.025) - 0.025;
+            return value +  value * (decimal)final;
         }
 
         public override string ToString()

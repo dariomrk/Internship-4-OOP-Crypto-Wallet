@@ -1,6 +1,6 @@
 ﻿using static System.Console;
 using static Internship_4_OOP_Crypto_Wallet.Utils.Helpers;
-using static Internship_4_OOP_Crypto_Wallet.Enums.Wallet;
+using static Internship_4_OOP_Crypto_Wallet.Enums.Types;
 using static Internship_4_OOP_Crypto_Wallet.UserInterface.Helpers;
 
 namespace Internship_4_OOP_Crypto_Wallet.UserInterface

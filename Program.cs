@@ -13,7 +13,8 @@ namespace Internship_4_OOP_Crypto_Wallet
             _ = nonFungibleAssets;
             _ = wallets;
 
-
+            ((BitcoinWallet)wallets[0]).IncreaseAssetAmount(fungibleAssets[0], 1);
+            ((BitcoinWallet)wallets[1]).IncreaseAssetAmount(fungibleAssets[0], 2);
 
             Menu(mainMenuItems);
         }

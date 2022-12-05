@@ -1,5 +1,6 @@
 ﻿using static Internship_4_OOP_Crypto_Wallet.Utils.Helpers;
 using Internship_4_OOP_Crypto_Wallet.Classes.Wallets;
+using static Internship_4_OOP_Crypto_Wallet.Enums.Types;
 
 namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
 {
@@ -30,7 +31,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
         #endregion
 
         #region Constructors
-        public FungibleAsset(string name, decimal value, string label) : base(name, value)
+        public FungibleAsset(string name, decimal value, string label) : base(name, value, AssetType.Fungible)
         {
             BaseWallet.AddSupport(this);
             Label = label;

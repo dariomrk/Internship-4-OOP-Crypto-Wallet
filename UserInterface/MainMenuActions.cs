@@ -3,7 +3,7 @@ using static Internship_4_OOP_Crypto_Wallet.UserInterface.Helpers;
 using static Internship_4_OOP_Crypto_Wallet.UserInterface.MenuDefinitons;
 using Internship_4_OOP_Crypto_Wallet.Interfaces;
 using Internship_4_OOP_Crypto_Wallet.Classes.Wallets;
-using static Internship_4_OOP_Crypto_Wallet.Enums.Wallet;
+using static Internship_4_OOP_Crypto_Wallet.Enums.Types;
 
 namespace Internship_4_OOP_Crypto_Wallet.UserInterface
 {

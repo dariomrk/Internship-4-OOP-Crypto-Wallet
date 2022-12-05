@@ -89,5 +89,15 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
         {
             WriteLine(string.Concat(Enumerable.Repeat("- ",30)));
         }
+
+        public static bool TryGetAmountFromUser(out decimal amount)
+        {
+            Write("Enter amount: ");
+            if(!decimal.TryParse(ReadLine(), out amount))
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }
