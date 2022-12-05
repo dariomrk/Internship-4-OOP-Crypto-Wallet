@@ -9,6 +9,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
     public abstract class BaseWallet : ISupportsFungible
     {
         #region Static members
+        public static Dictionary<Guid, IWallet> _allWallets = new();
         protected static List<Guid> _allFungible = new();
         protected static List<Guid> _allNonFungible = new();
         public static void AddSupport(FungibleAsset a)
@@ -18,6 +19,16 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
         public static void AddSupport(NonFungibleAsset a)
         {
             _allNonFungible.Add(a.Address);
+        }
+        public static IWallet? GetWallet(Guid walletAddress)
+        {
+            if (_allWallets.ContainsKey(walletAddress))
+                return _allWallets[walletAddress];
+            return null;
+        }
+        public static Guid[] WalletAddresses()
+        {
+            return _allWallets.Keys.ToArray();
         }
         #endregion
 
@@ -59,6 +70,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
                 _balances.Add(f, 0);
             }
             UpdatePortfolioValue();
+            _allWallets.Add(Address, this);
         }
         #endregion
 
