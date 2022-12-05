@@ -1,10 +1,72 @@
-﻿namespace Internship_4_OOP_Crypto_Wallet.UserInterface
+﻿using static System.Console;
+using static Internship_4_OOP_Crypto_Wallet.Enums.Wallet;
+using static Internship_4_OOP_Crypto_Wallet.UserInterface.MainMenuActions;
+using static Internship_4_OOP_Crypto_Wallet.UserInterface.Helpers;
+using Internship_4_OOP_Crypto_Wallet.Classes.Assets;
+using Internship_4_OOP_Crypto_Wallet.Classes.Wallets;
+
+namespace Internship_4_OOP_Crypto_Wallet.UserInterface
 {
     public static class AccessWalletMenuActions
     {
         public static void Portfolio()
         {
-            // TODO Implement
+            Clear();
+            if (selectedWallet.Type == WalletType.BitcoinWallet)
+            {
+                BaseWallet w = (BaseWallet)BaseWallet.GetWallet(selectedWallet.Address)!;
+
+                foreach (var balance in w.Balances)
+                {
+                    if (balance.Amount != 0)
+                    {
+                        HorizontalSeparator();
+                        WriteLine((FungibleAsset)Asset.GetAsset(balance.AssetAddress)!);
+                        WriteLine($"Amount: {balance.Amount}");
+                        WriteLine($"Total: {balance.Amount * Asset.GetAsset(balance.AssetAddress)!.ValueUSD} $");
+                    }
+                }
+                if (!w.Balances.Where(x => x.Amount > 0).Any())
+                    WriteWarning("There are no owned fungible assets.", false);
+                else
+                {
+                    AltHorizontalSeparator();
+                    WriteLine($"Portfolio value: {w.ValueUSD} $");
+                }
+
+                WaitForUserInput();
+            }
+            else
+            {
+                AdvancedWallet w = (AdvancedWallet)BaseWallet.GetWallet(selectedWallet.Address)!;
+
+                WriteLine("Fungible assets:");
+                foreach (var balance in w.Balances)
+                {
+                    if (balance.Amount != 0)
+                    {
+                        HorizontalSeparator();
+                        WriteLine((FungibleAsset)Asset.GetAsset(balance.AssetAddress)!);
+                        WriteLine($"Amount: {balance.Amount}");
+                        WriteLine($"Total: {balance.Amount * Asset.GetAsset(balance.AssetAddress)!.ValueUSD} $");
+                    }
+                }
+                if (!w.Balances.Where(x => x.Amount > 0).Any())
+                    WriteWarning("There are no owned fungible assets.", false);
+                WriteLine();
+                WriteLine("Non fungible assets:");
+                foreach (var address in w.OwnedNonFungibleAssets)
+                {
+                    HorizontalSeparator();
+                    WriteLine((NonFungibleAsset)Asset.GetAsset(address)!);
+                }
+                if (!w.OwnedNonFungibleAssets.Any())
+                    WriteWarning("There are no owned non fungible assets.", false);
+                else
+                    AltHorizontalSeparator();
+                WriteLine($"Portfolio value: {w.ValueUSD} $");
+                WaitForUserInput();
+            }
         }
         public static void Transfer()
         {

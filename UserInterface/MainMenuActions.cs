@@ -3,12 +3,13 @@ using static Internship_4_OOP_Crypto_Wallet.UserInterface.Helpers;
 using static Internship_4_OOP_Crypto_Wallet.UserInterface.MenuDefinitons;
 using Internship_4_OOP_Crypto_Wallet.Interfaces;
 using Internship_4_OOP_Crypto_Wallet.Classes.Wallets;
+using static Internship_4_OOP_Crypto_Wallet.Enums.Wallet;
 
 namespace Internship_4_OOP_Crypto_Wallet.UserInterface
 {
     public static class MainMenuActions
     {
-        public static IWallet selectedWallet = null; // TODO Sort this thing out
+        public static IWallet selectedWallet = null;
 
         public static void CreateWalletMenu()
         {
@@ -22,7 +23,16 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
             foreach (var w in BaseWallet.WalletAddresses())
             {
                 HorizontalSeparator();
-                WriteLine(BaseWallet.GetWallet(w));
+                IWallet wallet = BaseWallet.GetWallet(w)!;
+
+                if(wallet.Type == WalletType.BitcoinWallet)
+                {
+                    WriteLine((BaseWallet)wallet);
+                }
+                else
+                {
+                    WriteLine((AdvancedWallet)wallet);
+                }
             }
             if (!BaseWallet.WalletAddresses().Any())
             {

@@ -25,12 +25,12 @@ namespace Internship_4_OOP_Crypto_Wallet.Data
         {
             new NonFungibleAsset("Cel Mates by Mcbess",
                 FindByLabel(fungibleAssets,
-                    "ETH")!,
-                0.45m),
+                    "USDT")!,
+                1m),
             new NonFungibleAsset("Cel Mates Crime Reports",
                 FindByLabel(fungibleAssets,
-                    "ETH")!,
-                0.65m
+                    "USDT")!,
+                2m
                 ),
             new NonFungibleAsset("Mystery of Chessboxing by anon",
                 FindByLabel(fungibleAssets,

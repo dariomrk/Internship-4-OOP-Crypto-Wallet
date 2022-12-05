@@ -1,5 +1,7 @@
 ﻿using static System.Console;
 using Internship_4_OOP_Crypto_Wallet.Interfaces;
+using Internship_4_OOP_Crypto_Wallet.Classes.Assets;
+using Internship_4_OOP_Crypto_Wallet.Classes.Wallets;
 
 namespace Internship_4_OOP_Crypto_Wallet.UserInterface
 {
@@ -18,6 +20,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
             WriteLine("Success: " + message);
             ResetColor();
         }
+
         public static void WriteError(string message, bool wait = true)
         {
             ForegroundColor = ConsoleColor.Red;
@@ -41,7 +44,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
         {
             while (true)
             {
-                Clear();
+                Console.Clear();
                 for (int i = 0; i<menuItems.Length; i++)
                 {
                     var menuItem = menuItems[i];
@@ -79,7 +82,12 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
 
         public static void HorizontalSeparator()
         {
-            WriteLine(new string('-',30));
+            WriteLine(new string('-',60));
+        }
+
+        public static void AltHorizontalSeparator()
+        {
+            WriteLine(string.Concat(Enumerable.Repeat("- ",30)));
         }
     }
 }
