@@ -1,8 +1,6 @@
 ﻿using Internship_4_OOP_Crypto_Wallet.Classes.Wallets;
 using static Internship_4_OOP_Crypto_Wallet.Utils.Helpers;
 
-using static Internship_4_OOP_Crypto_Wallet.Utils.Helpers;
-
 namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
 {
     public sealed class NonFungibleAsset : Asset
@@ -51,9 +49,9 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
             decimal diff = CalculatePercentDifference(PreviousValueUSD, ValueUSD);
             return base.ToString() +
                 $"\n" +
-                $"Value: {ValueUSD} $\n" +
+                $"Type: NonFungible\n" +
                 $"Percentage change: {diff.ToString("F")} %\n" +
-                $"Type: NonFungible";
+                $"Value: {ValueUSD} $";
         }
         #endregion
     }

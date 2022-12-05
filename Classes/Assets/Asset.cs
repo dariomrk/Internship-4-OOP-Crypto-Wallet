@@ -104,7 +104,6 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
                 try
                 {
                     return _usdValueSnapshots.Last.Previous.Value;
-
                 }
                 catch (Exception)
                 {

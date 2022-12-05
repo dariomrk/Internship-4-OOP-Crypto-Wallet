@@ -2,6 +2,7 @@
 using Internship_4_OOP_Crypto_Wallet.Classes.Transactions;
 using Internship_4_OOP_Crypto_Wallet.Interfaces;
 using static Internship_4_OOP_Crypto_Wallet.Enums.Wallet;
+using static Internship_4_OOP_Crypto_Wallet.Utils.Helpers;
 
 namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
 {
@@ -14,6 +15,38 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
         #region Properties
         public Guid[] OwnedNonFungibleAssets => _ownedNonFungibleAssets.ToArray();
         public Guid[] SupportedNonFungibleAssets => _allNonFungible.ToArray();
+
+        public override decimal ValueUSD
+        {
+            get
+            {
+                decimal sumNonFungible = 0;
+
+                foreach (var address in OwnedNonFungibleAssets)
+                {
+                    var a = (NonFungibleAsset)Asset.GetAsset(address)!;
+                    sumNonFungible += a.ValueUSD;
+                }
+
+                return base.ValueUSD + sumNonFungible;
+            }
+        }
+
+        public override decimal PreviousValueUSD
+        {
+            get
+            {
+                decimal sumNonFungible = 0;
+
+                foreach (var address in OwnedNonFungibleAssets)
+                {
+                    var a = (NonFungibleAsset)Asset.GetAsset(address)!;
+                    sumNonFungible += a.PreviousValueUSD;
+                }
+
+                return base.PreviousValueUSD + sumNonFungible;
+            }
+        }
         #endregion
 
         #region Constructors
@@ -62,6 +95,16 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
                     return;
                 RemoveAsset((NonFungibleAsset)Asset.GetAsset(transaction.AssetAddress));
             }
+        }
+
+        public override string ToString()
+        {
+
+            decimal diff = CalculatePercentDifference(PreviousValueUSD,ValueUSD);
+            return $"Wallet type: {Type}\n" +
+                $"Wallet address: {Address}\n" +
+                $"Total assets value: {ValueUSD.ToString("F")} $\n" +
+                $"Percentage change: {diff.ToString("F")} %";
         }
         #endregion
     }

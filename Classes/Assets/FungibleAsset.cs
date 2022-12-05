@@ -44,9 +44,9 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
             return base.ToString() +
                 $"\n" +
                 $"Label: {Label}\n" +
-                $"Value: {ValueUSD} $\n" +
+                $"Type: Fungible\n" +
                 $"Percentage change: {diff.ToString("F")} %\n" +
-                $"Type: Fungible";
+                $"Value: 1 {Label} <-> {ValueUSD} $";
         }
         #endregion
     }

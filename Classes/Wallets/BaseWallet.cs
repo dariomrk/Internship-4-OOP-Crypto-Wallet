@@ -59,8 +59,8 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
         }
         public Guid[] SupportedFungibleAssets => _allFungible.ToArray();
         public WalletType Type => _type;
-        decimal IWallet.PreviousValueUSD => _previousPortfolioValueUSD;
-        decimal IWallet.ValueUSD => _portfolioValueUSD;
+        public virtual decimal PreviousValueUSD => _previousPortfolioValueUSD;
+        public virtual decimal ValueUSD => _portfolioValueUSD;
         #endregion
 
         #region Constructors
@@ -135,8 +135,6 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
         {
 
             decimal diff = CalculatePercentDifference(_previousPortfolioValueUSD,_portfolioValueUSD);
-            // TODO Implement fully
-            // Could probably reuse a bunch of stuff for "PORTFOLIO"
             return $"Wallet type: {Type}\n" +
                 $"Wallet address: {Address}\n" +
                 $"Total assets value: {_portfolioValueUSD.ToString("F")} $\n" +
