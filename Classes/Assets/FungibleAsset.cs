@@ -26,7 +26,6 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
                     _label = value;
                     return;
                 }
-                // In case the Name string is already added to the Asset._namesLabels hashSet.
                 RemoveNameOrLabel(Name);
                 throw new InvalidOperationException("Label property must be unique.");
             }
@@ -50,7 +49,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
                 $"Label: {Label}\n" +
                 $"Type: Fungible\n" +
                 $"Percentage change: {diff:F} %\n" +
-                $"Value: 1 {Label} <-> {ValueUSD} $";
+                $"Value: 1 {Label} <-> {ValueUSD:0.0000} $";
         }
         #endregion
     }

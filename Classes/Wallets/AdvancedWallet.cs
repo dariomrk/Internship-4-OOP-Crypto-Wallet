@@ -24,8 +24,8 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
 
                 foreach (Guid address in OwnedNonFungibleAssets)
                 {
-                    NonFungibleAsset a = (NonFungibleAsset)Asset.GetAsset(address)!;
-                    sumNonFungible += a.ValueUSD;
+                    NonFungibleAsset asset = (NonFungibleAsset)Asset.GetAsset(address)!;
+                    sumNonFungible += asset.ValueUSD;
                 }
 
                 return base.PortfolioValueUSD + sumNonFungible;

@@ -43,14 +43,17 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
         {
             _allFungible.Add(a.Address);
         }
+
         public static void AddSupport(NonFungibleAsset a)
         {
             _allNonFungible.Add(a.Address);
         }
+
         public static IWallet? GetWallet(Guid walletAddress)
         {
             return _allWallets.ContainsKey(walletAddress) ? _allWallets[walletAddress] : null;
         }
+
         public static Guid[] WalletAddresses()
         {
             return _allWallets.Keys.ToArray();
@@ -74,6 +77,9 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
                 foreach (Guid key in _balances.Keys)
                 {
                     output.Add((key, _balances[key]));
+
+                    Asset a = Asset.GetAsset(key)!;
+                    a.RandomlyChangeValue();
                 }
                 return output.ToArray();
             }

@@ -93,7 +93,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
         protected Asset(string name, decimal value, AssetType type)
         {
             Type = type;
-            _previousValueUSD = 0m;
+            _previousValueUSD = value;
             _currentValueUSD = value;
             Name = name;
             Address = Guid.NewGuid();
@@ -102,13 +102,14 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
         #endregion
 
         #region Methods
-        public virtual void ViewedValue()
+        public virtual void SyncPreviousValue()
         {
             _previousValueUSD = _currentValueUSD;
         }
 
         public virtual void RandomlyChangeValue()
         {
+            SyncPreviousValue();
             _currentValueUSD = GetRandomValue(_currentValueUSD);
         }
 

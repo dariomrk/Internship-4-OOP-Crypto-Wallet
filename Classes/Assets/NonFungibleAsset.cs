@@ -11,10 +11,17 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
         #endregion
 
         #region Properties
-        public Guid TiedFungibleAssetAddress => _tiedFungibleAsset.Address;
+        public Guid TiedFungibleAssetAddress
+        {
+            get
+            {
+                _tiedFungibleAsset.RandomlyChangeValue();
+                return _tiedFungibleAsset.Address;
+            }
+        }
         public decimal AmountOfTiedFungibleAsset { get; }
 
-        public override decimal ValueUSD => _tiedFungibleAsset.ValueUSD * AmountOfTiedFungibleAsset;
+        public override decimal ValueUSD => _tiedFungibleAsset.ValueUSD* AmountOfTiedFungibleAsset;
         public override decimal PreviousValueUSD => _tiedFungibleAsset.PreviousValueUSD * AmountOfTiedFungibleAsset;
         #endregion
 
@@ -43,7 +50,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
                 $"\n" +
                 $"Type: NonFungible\n" +
                 $"Percentage change: {diff:F} %\n" +
-                $"Value: {ValueUSD} $";
+                $"Value: {ValueUSD:0.0000} $";
         }
         #endregion
     }

@@ -25,9 +25,9 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
                         HorizontalSeparator();
                         FungibleAsset a = (FungibleAsset)Asset.GetAsset(AssetAddress)!;
                         WriteLine(a);
-                        a.ViewedValue();
+                        a.SyncPreviousValue();
                         WriteLine($"Amount: {Amount}");
-                        WriteLine($"Total: {Amount * Asset.GetAsset(AssetAddress)!.ValueUSD} $");
+                        WriteLine($"Total: {Amount * Asset.GetAsset(AssetAddress)!.ValueUSD:0.0000} $");
                     }
                 }
                 if (!w.Balances.Where(x => x.Amount > 0).Any())
@@ -37,7 +37,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
                 else
                 {
                     AltHorizontalSeparator();
-                    WriteLine($"Portfolio value: {w.PortfolioValueUSD} $");
+                    WriteLine($"Portfolio value: {w.PortfolioValueUSD:0.0000} $");
                 }
 
                 WaitForUserInput();
@@ -54,9 +54,9 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
                         HorizontalSeparator();
                         FungibleAsset a = (FungibleAsset)Asset.GetAsset(AssetAddress)!;
                         WriteLine(a);
-                        a.ViewedValue();
+                        a.SyncPreviousValue();
                         WriteLine($"Amount: {Amount}");
-                        WriteLine($"Total: {Amount * Asset.GetAsset(AssetAddress)!.ValueUSD} $");
+                        WriteLine($"Total: {Amount * Asset.GetAsset(AssetAddress)!.ValueUSD:0.0000} $");
                     }
                 }
                 if (!w.Balances.Where(x => x.Amount > 0).Any())
@@ -78,7 +78,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
                 else
                 {
                     AltHorizontalSeparator();
-                    WriteLine($"Portfolio value: {w.PortfolioValueUSD} $");
+                    WriteLine($"Portfolio value: {w.PortfolioValueUSD:0.0000} $");
                 }
 
                 WaitForUserInput();
@@ -206,7 +206,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
                 }
                 catch (Exception)
                 {
-                    // Catch what? (● _ ●)
+                    // Catch what? (● _ ●) I aint goona do shit
                 }
             }
             if (!selectedWallet.Transactions.Any())
