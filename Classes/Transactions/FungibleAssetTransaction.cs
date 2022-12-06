@@ -2,6 +2,7 @@
 using Internship_4_OOP_Crypto_Wallet.Utils;
 using Internship_4_OOP_Crypto_Wallet.Interfaces;
 using Internship_4_OOP_Crypto_Wallet.Classes.Wallets;
+using static Internship_4_OOP_Crypto_Wallet.Enums.Types;
 
 namespace Internship_4_OOP_Crypto_Wallet.Classes.Transactions
 {
@@ -42,8 +43,11 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Transactions
         #region Constructors
         private FungibleAssetTransaction(decimal amount, FungibleAsset asset,
             ISupportsFungible sender,
-            ISupportsFungible reciever) : base(asset.Address, sender, reciever)
+            ISupportsFungible reciever) : base(asset.Address, sender, reciever, TransactionType.Fungible)
         {
+            if (amount < 0)
+                throw new InvalidOperationException("Sender is not able to send a negative amount.");
+
             _balanceSenderBefore = Helpers.FindAmount(asset.Address, sender);
             _balanceRecieverBefore = Helpers.FindAmount(asset.Address, reciever);
 
@@ -51,7 +55,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Transactions
                 throw new InvalidOperationException("Sender is not able to cover the cost of this transaction.");
 
             reciever.IncreaseAssetAmount(asset, amount);
-            sender.IncreaseAssetAmount(asset, amount);
+            sender.ReduceAssetAmount(asset, amount);
 
             _balanceSenderAfter = Helpers.FindAmount(asset.Address, sender);
             _balanceRecieverAfter = Helpers.FindAmount(asset.Address, reciever);

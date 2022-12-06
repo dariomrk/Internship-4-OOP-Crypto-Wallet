@@ -144,6 +144,11 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
                 $"Total assets value: {PortfolioValueUSD.ToString("F")} $\n" +
                 $"Percentage change: {diff.ToString("F")} %";
         }
+
+        public void AddTransaction(ITransaction transaction)
+        {
+            _transactions.Add(transaction);
+        }
         #endregion
     }
 }

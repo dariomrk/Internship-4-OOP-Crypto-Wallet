@@ -92,12 +92,34 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
 
         public static bool TryGetAmountFromUser(out decimal amount)
         {
+            Clear();
             Write("Enter amount: ");
             if(!decimal.TryParse(ReadLine(), out amount))
             {
                 return false;
             }
             return true;
+        }
+
+        public static bool GetConfirmation(string message)
+        {
+            while(true)
+            {
+                Clear();
+                WriteLine(message);
+                Write("Input Y/N: ");
+                string userInput = ReadLine();
+                if(string.IsNullOrWhiteSpace(userInput))
+                {
+                    WriteError("You must select one option.");
+                    continue;
+                }
+                if (userInput.Trim().ToUpper() == "Y")
+                    return true;
+                if (userInput.Trim().ToUpper() == "N")
+                    return false;
+                WriteError("Invalid input.");
+            }
         }
     }
 }

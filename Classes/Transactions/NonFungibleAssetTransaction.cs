@@ -1,6 +1,7 @@
 ﻿using Internship_4_OOP_Crypto_Wallet.Classes.Assets;
 using Internship_4_OOP_Crypto_Wallet.Classes.Wallets;
 using Internship_4_OOP_Crypto_Wallet.Interfaces;
+using static Internship_4_OOP_Crypto_Wallet.Enums.Types;
 
 namespace Internship_4_OOP_Crypto_Wallet.Classes.Transactions
 {
@@ -34,13 +35,13 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Transactions
         #region Constructors
         private NonFungibleAssetTransaction(NonFungibleAsset asset,
             ISupportsNonFungible sender,
-            ISupportsNonFungible reciever) : base(asset.Address, sender, reciever)
+            ISupportsNonFungible reciever) : base(asset.Address, sender, reciever, TransactionType.NonFungible)
         {
             if (!sender.OwnsAsset(asset))
                 throw new InvalidOperationException("Sender does not own the asset.");
 
-            sender.RemoveAsset(asset);
             reciever.AddAsset(asset);
+            sender.RemoveAsset(asset);
         }
         #endregion
 

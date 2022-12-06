@@ -13,7 +13,6 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
     {
         public static void Portfolio()
         {
-            // TODO Clean code?
             Clear();
             if (selectedWallet.Type == WalletType.BitcoinWallet)
             {
@@ -70,11 +69,15 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
                 if (!w.OwnedNonFungibleAssets.Any())
                     WriteWarning("There are no owned non fungible assets.", false);
                 else
+                {
                     AltHorizontalSeparator();
-                WriteLine($"Portfolio value: {w.PortfolioValueUSD} $");
+                    WriteLine($"Portfolio value: {w.PortfolioValueUSD} $");
+                }
+
                 WaitForUserInput();
             }
         }
+
         public static void Transfer()
         {
             Clear();
@@ -109,38 +112,21 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
                 return;
             }
 
-            if (asset.Type == AssetType.NonFungible
-                || selectedWallet.Type != WalletType.BitcoinWallet
-                || toBeReciever.Type != WalletType.BitcoinWallet)
+            if (asset.Type == AssetType.Fungible)
             {
-                WriteError("One of the wallets cannot handle non fungible assets.");
-                return;
-            }
-            else if(asset.Type == AssetType.NonFungible)
-            {
-                AdvancedWallet sender = (AdvancedWallet)selectedWallet;
-                AdvancedWallet reciever = (AdvancedWallet)toBeReciever;
-
-                if(!NonFungibleAssetTransaction.TryCreateNonFungibleTransaction((NonFungibleAsset)asset,
-                    sender,
-                    reciever,
-                    out NonFungibleAssetTransaction transaction))
-                {
-                    WriteError("Cannot create a non fungible transaction.");
-                    return;
-                }
-            }
-            else
-            {
-                
-                
-
+                // FUNGIBLE ASSET TRANSACTION
                 if (!TryGetAmountFromUser(out decimal amount))
                 {
-                    WriteError("Invalid format.");
-                    return ;
+                    WriteError("Invalid format. Cancelling transaction.");
+                    return;
                 }
 
+                if (!GetConfirmation("Are you sure you want to proceed with the transaction?"))
+                {
+                    WriteWarning("Cancelled.");
+                    return;
+                }
+                Clear();
                 BaseWallet sender = (BaseWallet)selectedWallet;
                 BaseWallet reciever = (BaseWallet)toBeReciever;
 
@@ -150,17 +136,76 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
                     reciever,
                     out FungibleAssetTransaction transaction))
                 {
-                    WriteError("Cannot create a fungible transaction.");
+                    WriteError("Cannot create a fungible transaction.\n" +
+                        "Possible causes:\n" +
+                        "The amount you tried to send is greater to the amount you own.\n" +
+                        "The amount you tried to send is a negative value.");
+                    return;
+                }
+            }
+            else if (asset.Type == AssetType.NonFungible)
+            {
+                // NON FUNGIBLE ASSET TRANSACTION
+                if(selectedWallet.Type == WalletType.BitcoinWallet || toBeReciever.Type == WalletType.BitcoinWallet)
+                {
+                    WriteError("One or both of the wallets cannot handle non fungible assets.");
+                    return;
+                }
+
+                AdvancedWallet sender = (AdvancedWallet)selectedWallet;
+                AdvancedWallet reciever = (AdvancedWallet)toBeReciever;
+
+                if (!NonFungibleAssetTransaction.TryCreateNonFungibleTransaction((NonFungibleAsset)asset,
+                    sender,
+                    reciever,
+                    out NonFungibleAssetTransaction transaction))
+                {
+                    WriteError("Cannot create a non fungible transaction.");
                     return;
                 }
             }
             asset.RandomlyChangeValue();
-            WriteSuccess("Transaction done.");
+            WriteSuccess("Transaction completed.");
+            WaitForUserInput();
         }
 
         public static void TransactionHistory()
         {
-            foreach(var transaction in selectedWallet)
+            Clear();
+            List<ITransaction> sortedTransactions = selectedWallet.Transactions.ToList();
+            sortedTransactions.Sort(
+                (x, y) => x.CreatedAt.CompareTo(y.CreatedAt));
+
+            foreach (var t in sortedTransactions)
+            {
+                HorizontalSeparator();
+                WriteLine($"Transaction Id: {t.Id}\n" +
+                    $"Timestamp: {t.CreatedAt}\n" +
+                    $"Sender: {t.Sender}\n" +
+                    $"Reciever: {t.Reciever}\n" +
+                    $"Name: {Asset.GetAsset(t.AssetAddress)!.Name}\n" +
+                    $"Revoked: {t.IsRevoked}");
+                try
+                {
+                    decimal diff = ((FungibleAssetTransaction)t).BalanceSenderAfter
+                        - ((FungibleAssetTransaction)t).BalanceSenderBefore;
+                    WriteLine($"Amount: {diff}");
+                }
+                catch (Exception)
+                {
+                    // Catch what? (● _ ●)
+                }
+            }
+            if (!selectedWallet.Transactions.Any())
+            {
+                WriteWarning("There are no previous transactions.", false);
+            }
+            else
+            {
+                AltHorizontalSeparator();
+                WriteLine("End of transaction history.");
+            }
+            WaitForUserInput();
         }
 
         public static void RevokeTransaction()
