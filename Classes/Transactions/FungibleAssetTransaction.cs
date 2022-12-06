@@ -63,15 +63,18 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Transactions
         #endregion
 
         #region Methods
-        public override void RevokeTransaction()
+        public override bool RevokeTransaction(IWallet caller)
         {
-            base.RevokeTransaction();
+            if (base.RevokeTransaction(caller))
+            {
+                BaseWallet sender = (BaseWallet)_sender;
+                BaseWallet reciever = (BaseWallet)_reciever;
 
-            BaseWallet sender = (BaseWallet)_sender;
-            BaseWallet reciever = (BaseWallet)_reciever;
-
-            sender.RevokeFungibleTransaction(this);
-            reciever.RevokeFungibleTransaction(this);
+                sender.RevokeFungibleTransaction(this);
+                reciever.RevokeFungibleTransaction(this);
+                return true;
+            }
+            return false;
         }
         #endregion
     }

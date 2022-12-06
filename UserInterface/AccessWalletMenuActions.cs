@@ -96,6 +96,12 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
                 return;
             }
 
+            if(toBeReciever.Address == selectedWallet.Address)
+            {
+                WriteError("You cannot set the reciever as self.");
+                return;
+            }
+
             Clear();
             Write("Input the address of the asset to send: ");
             if (!TryGetAddressFromUser(out Guid assetAddress))
@@ -138,8 +144,8 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
                 {
                     WriteError("Cannot create a fungible transaction.\n" +
                         "Possible causes:\n" +
-                        "The amount you tried to send is greater to the amount you own.\n" +
-                        "The amount you tried to send is a negative value.");
+                        " - The amount you tried to send is greater to the amount you own.\n" +
+                        " - The amount you tried to send is a negative value.");
                     return;
                 }
             }
@@ -148,7 +154,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
                 // NON FUNGIBLE ASSET TRANSACTION
                 if(selectedWallet.Type == WalletType.BitcoinWallet || toBeReciever.Type == WalletType.BitcoinWallet)
                 {
-                    WriteError("One or both of the wallets cannot handle non fungible assets.");
+                    WriteError("Make sure that both wallets support non fungible assets.");
                     return;
                 }
 
@@ -160,7 +166,9 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
                     reciever,
                     out NonFungibleAssetTransaction transaction))
                 {
-                    WriteError("Cannot create a non fungible transaction.");
+                    WriteError("Cannot create a non fungible transaction.\n" +
+                        "Possible causes:\n" +
+                        "- You do not own the asset.");
                     return;
                 }
             }
@@ -174,7 +182,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
             Clear();
             List<ITransaction> sortedTransactions = selectedWallet.Transactions.ToList();
             sortedTransactions.Sort(
-                (x, y) => x.CreatedAt.CompareTo(y.CreatedAt));
+                (x, y) => y.CreatedAt.CompareTo(x.CreatedAt));
 
             foreach (var t in sortedTransactions)
             {
@@ -210,11 +218,40 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
 
         public static void RevokeTransaction()
         {
-            // TODO Implement
-            foreach (var transaction in selectedWallet.Transactions)
+            Clear();
+            if (!selectedWallet.Transactions.Any())
             {
-
+                WriteWarning("There are no previous transactions.");
+                return;
             }
+
+            Write("Input the id of the transaction you want to revoke: ");
+            if(!TryGetAddressFromUser(out Guid transactionId))
+            {
+                WriteError("Invalid address format.");
+                return;
+            }
+
+            ITransaction? transaction = selectedWallet.Transactions.FirstOrDefault(x => x!.Id == transactionId, null);
+
+            if(transaction == null)
+            {
+                WriteError("Transaction does not exist.\n" +
+                    "Please check if the transaction address was typed in correctly.");
+                return;
+            }
+
+            if (!transaction.RevokeTransaction(selectedWallet))
+            {
+                WriteError("Transaction cannot be revoked.\n" +
+                    "Possible causes:\n" +
+                    " - More than 60 seconds passed since the transaction was created.\n" +
+                    " - You are trying to revoke a already revoked transaction.\n" +
+                    " - You are trying to revoke a transaction not created by this wallet.");
+                return ;
+            }
+            WriteSuccess($"Transaction revoked.");
+            WaitForUserInput();
         }
     }
 }

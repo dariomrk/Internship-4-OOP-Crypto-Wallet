@@ -1,5 +1,6 @@
 ﻿using Internship_4_OOP_Crypto_Wallet.Classes.Assets;
 using Internship_4_OOP_Crypto_Wallet.Interfaces;
+using System;
 using static Internship_4_OOP_Crypto_Wallet.Enums.Types;
 
 namespace Internship_4_OOP_Crypto_Wallet.Classes.Transactions
@@ -34,15 +35,27 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Transactions
             _sender = sender;
             _reciever = reciever;
 
+            if (sender.Address == reciever.Address)
+                throw new InvalidOperationException("Cannot transfer an asset to self.");
+
             sender.AddTransaction(this);
             reciever.AddTransaction(this);
         }
         #endregion
 
         #region Methods
-        public virtual void RevokeTransaction()
+        public virtual bool RevokeTransaction(IWallet caller)
         {
-            _isRevoked = true;
+            if(_isRevoked)
+                return false;
+            if(caller.Address != Sender)
+                return false;
+            if ((DateTime.UtcNow - CreatedAt).TotalSeconds <= 60)
+            {
+                _isRevoked = true;
+                return true;
+            }
+            return false;
         }
         #endregion
     }

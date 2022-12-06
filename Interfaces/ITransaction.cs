@@ -11,6 +11,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Interfaces
         public Guid Sender { get; }
         public Guid Reciever { get; }
         public bool IsRevoked { get; }
+        public bool RevokeTransaction(IWallet caller);
     }
 
 }
