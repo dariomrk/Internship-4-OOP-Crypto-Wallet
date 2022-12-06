@@ -8,7 +8,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
         public static void WaitForUserInput()
         {
             WriteLine("Press any key to continue...");
-            _=ReadKey();
+            ReadKey();
         }
 
         public static void WriteSuccess(string message)

@@ -43,7 +43,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Transactions
             }
 
             reciever.AddAsset(asset);
-            _=sender.RemoveAsset(asset);
+            sender.RemoveAsset(asset);
         }
         #endregion
 

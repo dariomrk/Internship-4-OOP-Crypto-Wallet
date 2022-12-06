@@ -6,12 +6,11 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Transactions
     public abstract class Transaction : ITransaction
     {
         #region Fields
-        public TransactionType Type => _type;
-        public TransactionType _type;
         protected IWallet _sender, _reciever;
         #endregion
 
         #region Properties
+        public TransactionType Type { get; }
         public Guid Id { get; }
         public Guid AssetAddress { get; }
         public DateTime CreatedAt { get; } = DateTime.UtcNow;
@@ -24,7 +23,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Transactions
         protected Transaction(Guid assetAddress, IWallet sender, IWallet reciever, TransactionType type)
         {
             Id = Guid.NewGuid();
-            _type = type;
+            Type = type;
             AssetAddress = assetAddress;
             _sender = sender;
             _reciever = reciever;

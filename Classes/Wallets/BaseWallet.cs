@@ -12,6 +12,33 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
         public static Dictionary<Guid, IWallet> _allWallets = new();
         protected static List<Guid> _allFungible = new();
         protected static List<Guid> _allNonFungible = new();
+
+        /// <summary>
+        /// Wallet factory.
+        /// </summary>
+        /// <param name="w"></param>
+        /// <returns>IWallet of specified type.</returns>
+        public static IWallet? CreateWallet(WalletType w)
+        {
+            switch (w)
+            {
+                case WalletType.BitcoinWallet:
+                    {
+                        return new BitcoinWallet();
+                    }
+                case WalletType.EthereumWallet:
+                    {
+                        return new EthereumWallet();
+                    }
+                case WalletType.SolanaWallet:
+                    {
+                        return new SolanaWallet();
+                    }
+                default:
+                    return null;
+            }
+        }
+
         public static void AddSupport(FungibleAsset a)
         {
             _allFungible.Add(a.Address);

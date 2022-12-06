@@ -57,7 +57,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Transactions
             }
 
             reciever.IncreaseAssetAmount(asset, amount);
-            _=sender.ReduceAssetAmount(asset, amount);
+            sender.ReduceAssetAmount(asset, amount);
 
             BalanceSenderAfter = Helpers.FindAmount(asset.Address, sender);
             BalanceRecieverAfter = Helpers.FindAmount(asset.Address, reciever);

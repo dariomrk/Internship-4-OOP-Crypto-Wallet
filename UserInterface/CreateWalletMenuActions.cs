@@ -1,6 +1,6 @@
-﻿using static Internship_4_OOP_Crypto_Wallet.Enums.Types;
+﻿using static Internship_4_OOP_Crypto_Wallet.Classes.Wallets.BaseWallet;
+using static Internship_4_OOP_Crypto_Wallet.Enums.Types;
 using static Internship_4_OOP_Crypto_Wallet.UserInterface.Helpers;
-using static Internship_4_OOP_Crypto_Wallet.Utils.Helpers;
 using static System.Console;
 
 namespace Internship_4_OOP_Crypto_Wallet.UserInterface
@@ -11,7 +11,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
         {
             Clear();
             WriteSuccess("Created wallet");
-            WriteBasicInfo(CreateWallet!!!!!!!!(WalletType.BitcoinWallet));
+            WriteBasicInfo(CreateWallet(WalletType.BitcoinWallet)!);
             WaitForUserInput();
         }
 
@@ -19,7 +19,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
         {
             Clear();
             WriteSuccess("Created wallet");
-            WriteBasicInfo(CreateWallet!!!!!!!!(WalletType.EthereumWallet));
+            WriteBasicInfo(CreateWallet(WalletType.EthereumWallet)!);
             WaitForUserInput();
         }
 
@@ -27,7 +27,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
         {
             Clear();
             WriteSuccess("Created wallet");
-            WriteBasicInfo(CreateWallet!!!!!!!!(WalletType.SolanaWallet));
+            WriteBasicInfo(CreateWallet(WalletType.SolanaWallet)!);
             WaitForUserInput();
         }
     }

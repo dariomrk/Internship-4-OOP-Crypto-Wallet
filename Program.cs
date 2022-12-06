@@ -7,7 +7,7 @@ namespace Internship_4_OOP_Crypto_Wallet
 {
     public static class Program
     {
-        private static void Main()
+        public static void Main()
         {
             // Preset portfolios for testing
             ((BitcoinWallet)wallets[0]).IncreaseAssetAmount(fungibleAssets[0], 1); // add 1 BTC (fungible asset)

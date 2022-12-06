@@ -9,7 +9,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
 {
     public static class MainMenuActions
     {
-        public static IWallet? selectedWallet = null;
+        public static IWallet? selectedWallet;
 
         public static void CreateWalletMenu()
         {

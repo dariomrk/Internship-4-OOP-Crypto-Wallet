@@ -71,19 +71,18 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
                 return false;
             }
 
-            _=_ownedNonFungibleAssets.Remove(asset.Address);
+            _ownedNonFungibleAssets.Remove(asset.Address);
             return true;
         }
 
         public void AddAsset(NonFungibleAsset asset)
         {
-            _=OwnsAsset(asset); // Just to check wether the asset even exists.
+            OwnsAsset(asset);
             _ownedNonFungibleAssets.Add(asset.Address);
         }
 
         public void RevokeNonFungibleTransaction(NonFungibleAssetTransaction transaction)
         {
-            // TODO Test thoroughly, possible null reference, possible cast exception
             if (transaction.Sender == Address)
             {
                 if (OwnedNonFungibleAssets.Contains(transaction.AssetAddress))
@@ -100,7 +99,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
                     return;
                 }
 
-                _=RemoveAsset((NonFungibleAsset)Asset.GetAsset(transaction.AssetAddress));
+                RemoveAsset((NonFungibleAsset)Asset.GetAsset(transaction.AssetAddress));
             }
         }
 

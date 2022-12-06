@@ -27,32 +27,5 @@ namespace Internship_4_OOP_Crypto_Wallet.Utils
         {
             return initial != 0 ? (final - initial) / initial * 100 : 0;
         }
-
-        /// <summary>
-        /// Wallet factory.
-        /// </summary>
-        /// <param name="w"></param>
-        /// <returns>IWallet of specified type.</returns>
-        public static IWallet? CreateWallet(WalletType w)
-        {
-            switch (w)
-            {
-                case WalletType.BitcoinWallet:
-                    {
-                        return new BitcoinWallet();
-                    }
-                case WalletType.EthereumWallet:
-                    {
-                        return new EthereumWallet();
-                    }
-                case WalletType.SolanaWallet:
-                    {
-                        return new SolanaWallet();
-                    }
-                default:
-                    return null;
-            }
-        }
-
     }
 }
