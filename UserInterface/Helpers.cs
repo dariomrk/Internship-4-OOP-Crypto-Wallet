@@ -1,7 +1,5 @@
-﻿using static System.Console;
-using Internship_4_OOP_Crypto_Wallet.Interfaces;
-using Internship_4_OOP_Crypto_Wallet.Classes.Assets;
-using Internship_4_OOP_Crypto_Wallet.Classes.Wallets;
+﻿using Internship_4_OOP_Crypto_Wallet.Interfaces;
+using static System.Console;
 
 namespace Internship_4_OOP_Crypto_Wallet.UserInterface
 {
@@ -10,9 +8,9 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
         public static void WaitForUserInput()
         {
             WriteLine("Press any key to continue...");
-            ReadKey();
+            _=ReadKey();
         }
-        
+
         public static void WriteSuccess(string message)
         {
             BackgroundColor = ConsoleColor.Green;
@@ -26,8 +24,10 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
             ForegroundColor = ConsoleColor.Red;
             WriteLine("Error! " + message);
             ResetColor();
-            if(wait)
+            if (wait)
+            {
                 WaitForUserInput();
+            }
         }
 
         public static void WriteWarning(string message, bool wait = true)
@@ -36,8 +36,10 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
             BackgroundColor = ConsoleColor.Yellow;
             WriteLine("Warning: " + message);
             ResetColor();
-            if(wait)
+            if (wait)
+            {
                 WaitForUserInput();
+            }
         }
 
         public static void Menu((string Alias, Action Action)[] menuItems)
@@ -47,7 +49,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
                 Console.Clear();
                 for (int i = 0; i<menuItems.Length; i++)
                 {
-                    var menuItem = menuItems[i];
+                    (string Alias, Action Action) menuItem = menuItems[i];
 
                     WriteLine($"{i} {menuItem.Alias}");
                 }
@@ -72,52 +74,52 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
         {
             WriteLine($"{w.Type} \nAddress: {w.Address}");
         }
-        
+
         public static bool TryGetAddressFromUser(out Guid address)
         {
-            if (!Guid.TryParse(ReadLine(), out address))
-                return false;
-            return true;
+            return Guid.TryParse(ReadLine(), out address);
         }
 
         public static void HorizontalSeparator()
         {
-            WriteLine(new string('-',60));
+            WriteLine(new string('-', 60));
         }
 
         public static void AltHorizontalSeparator()
         {
-            WriteLine(string.Concat(Enumerable.Repeat("- ",30)));
+            WriteLine(string.Concat(Enumerable.Repeat("- ", 30)));
         }
 
         public static bool TryGetAmountFromUser(out decimal amount)
         {
             Clear();
             Write("Enter amount: ");
-            if(!decimal.TryParse(ReadLine(), out amount))
-            {
-                return false;
-            }
-            return true;
+            return decimal.TryParse(ReadLine(), out amount);
         }
 
         public static bool GetConfirmation(string message)
         {
-            while(true)
+            while (true)
             {
                 Clear();
                 WriteLine(message);
                 Write("Input Y/N: ");
                 string userInput = ReadLine();
-                if(string.IsNullOrWhiteSpace(userInput))
+                if (string.IsNullOrWhiteSpace(userInput))
                 {
                     WriteError("You must select one option.");
                     continue;
                 }
-                if (userInput.Trim().ToUpper() == "Y")
+                if (string.Equals(userInput.Trim(), "Y", StringComparison.OrdinalIgnoreCase))
+                {
                     return true;
-                if (userInput.Trim().ToUpper() == "N")
+                }
+
+                if (string.Equals(userInput.Trim(), "N", StringComparison.OrdinalIgnoreCase))
+                {
                     return false;
+                }
+
                 WriteError("Invalid input.");
             }
         }

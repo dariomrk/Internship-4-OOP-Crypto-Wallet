@@ -17,9 +17,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
         /// <returns>Reference to the asset object.</returns>
         public static Asset? GetAsset(Guid assetAddress)
         {
-            if (_allAssets.ContainsKey(assetAddress))
-                return _allAssets[assetAddress];
-            return null;
+            return _allAssets.ContainsKey(assetAddress) ? _allAssets[assetAddress] : null;
         }
 
         /// <summary>
@@ -60,23 +58,24 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
         #endregion
 
         #region Fields
-        private AssetType _type;
-        private readonly Guid _address;
         private string _name;
         protected decimal _previousValueUSD;
         protected decimal _currentValueUSD;
         #endregion
 
         #region Properties
-        public AssetType Type => _type;
-        public Guid Address => _address;
+        public AssetType Type { get; }
+        public Guid Address { get; }
         public string Name
         {
             get => _name;
             set
             {
                 if (string.IsNullOrEmpty(value))
+                {
                     throw new ArgumentNullException("Name property cannot be an empty string.");
+                }
+
                 if (Asset.TryAddNameOrLabel(value))
                 {
                     _name = value;
@@ -93,12 +92,12 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
         #region Constructors
         protected Asset(string name, decimal value, AssetType type)
         {
-            _type = type;
+            Type = type;
             _previousValueUSD = 0m;
             _currentValueUSD = value;
             Name = name;
-            _address = Guid.NewGuid();
-            _allAssets.Add(this.Address, this);
+            Address = Guid.NewGuid();
+            _allAssets.Add(Address, this);
         }
         #endregion
 
@@ -117,8 +116,8 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
         {
             Random r = new();
             double d = r.NextDouble();
-            double final = d * (0.025 + 0.025) - 0.025;
-            return value +  value * (decimal)final;
+            double final = (d * (0.025 + 0.025)) - 0.025;
+            return value +  (value * (decimal)final);
         }
 
         public override string ToString()

@@ -1,6 +1,6 @@
-﻿using static Internship_4_OOP_Crypto_Wallet.UserInterface.MainMenuActions;
+﻿using static Internship_4_OOP_Crypto_Wallet.UserInterface.AccessWalletMenuActions;
 using static Internship_4_OOP_Crypto_Wallet.UserInterface.CreateWalletMenuActions;
-using static Internship_4_OOP_Crypto_Wallet.UserInterface.AccessWalletMenuActions;
+using static Internship_4_OOP_Crypto_Wallet.UserInterface.MainMenuActions;
 
 namespace Internship_4_OOP_Crypto_Wallet.UserInterface
 {

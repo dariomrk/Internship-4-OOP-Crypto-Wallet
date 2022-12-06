@@ -1,11 +1,11 @@
-﻿using static System.Console;
-using static Internship_4_OOP_Crypto_Wallet.Enums.Types;
-using static Internship_4_OOP_Crypto_Wallet.UserInterface.MainMenuActions;
-using static Internship_4_OOP_Crypto_Wallet.UserInterface.Helpers;
-using Internship_4_OOP_Crypto_Wallet.Classes.Assets;
+﻿using Internship_4_OOP_Crypto_Wallet.Classes.Assets;
+using Internship_4_OOP_Crypto_Wallet.Classes.Transactions;
 using Internship_4_OOP_Crypto_Wallet.Classes.Wallets;
 using Internship_4_OOP_Crypto_Wallet.Interfaces;
-using Internship_4_OOP_Crypto_Wallet.Classes.Transactions;
+using static Internship_4_OOP_Crypto_Wallet.Enums.Types;
+using static Internship_4_OOP_Crypto_Wallet.UserInterface.Helpers;
+using static Internship_4_OOP_Crypto_Wallet.UserInterface.MainMenuActions;
+using static System.Console;
 
 namespace Internship_4_OOP_Crypto_Wallet.UserInterface
 {
@@ -18,20 +18,22 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
             {
                 BaseWallet w = (BaseWallet)BaseWallet.GetWallet(selectedWallet.Address)!;
 
-                foreach (var balance in w.Balances)
+                foreach ((Guid AssetAddress, decimal Amount) in w.Balances)
                 {
-                    if (balance.Amount != 0)
+                    if (Amount != 0)
                     {
                         HorizontalSeparator();
-                        FungibleAsset a = (FungibleAsset)Asset.GetAsset(balance.AssetAddress)!;
+                        FungibleAsset a = (FungibleAsset)Asset.GetAsset(AssetAddress)!;
                         WriteLine(a);
                         a.ViewedValue();
-                        WriteLine($"Amount: {balance.Amount}");
-                        WriteLine($"Total: {balance.Amount * Asset.GetAsset(balance.AssetAddress)!.ValueUSD} $");
+                        WriteLine($"Amount: {Amount}");
+                        WriteLine($"Total: {Amount * Asset.GetAsset(AssetAddress)!.ValueUSD} $");
                     }
                 }
                 if (!w.Balances.Where(x => x.Amount > 0).Any())
+                {
                     WriteWarning("There are no owned fungible assets.", false);
+                }
                 else
                 {
                     AltHorizontalSeparator();
@@ -45,29 +47,34 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
                 AdvancedWallet w = (AdvancedWallet)BaseWallet.GetWallet(selectedWallet.Address)!;
 
                 WriteLine("Fungible assets:");
-                foreach (var balance in w.Balances)
+                foreach ((Guid AssetAddress, decimal Amount) in w.Balances)
                 {
-                    if (balance.Amount != 0)
+                    if (Amount != 0)
                     {
                         HorizontalSeparator();
-                        FungibleAsset a = (FungibleAsset)Asset.GetAsset(balance.AssetAddress)!;
+                        FungibleAsset a = (FungibleAsset)Asset.GetAsset(AssetAddress)!;
                         WriteLine(a);
                         a.ViewedValue();
-                        WriteLine($"Amount: {balance.Amount}");
-                        WriteLine($"Total: {balance.Amount * Asset.GetAsset(balance.AssetAddress)!.ValueUSD} $");
+                        WriteLine($"Amount: {Amount}");
+                        WriteLine($"Total: {Amount * Asset.GetAsset(AssetAddress)!.ValueUSD} $");
                     }
                 }
                 if (!w.Balances.Where(x => x.Amount > 0).Any())
+                {
                     WriteWarning("There are no owned fungible assets.", false);
+                }
+
                 WriteLine();
                 WriteLine("Non fungible assets:");
-                foreach (var address in w.OwnedNonFungibleAssets)
+                foreach (Guid address in w.OwnedNonFungibleAssets)
                 {
                     HorizontalSeparator();
                     WriteLine((NonFungibleAsset)Asset.GetAsset(address)!);
                 }
                 if (!w.OwnedNonFungibleAssets.Any())
+                {
                     WriteWarning("There are no owned non fungible assets.", false);
+                }
                 else
                 {
                     AltHorizontalSeparator();
@@ -96,7 +103,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
                 return;
             }
 
-            if(toBeReciever.Address == selectedWallet.Address)
+            if (toBeReciever.Address == selectedWallet.Address)
             {
                 WriteError("You cannot set the reciever as self.");
                 return;
@@ -135,12 +142,11 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
                 Clear();
                 BaseWallet sender = (BaseWallet)selectedWallet;
                 BaseWallet reciever = (BaseWallet)toBeReciever;
-
                 if (!FungibleAssetTransaction.TryCreateFungibleTransaction(amount,
                     (FungibleAsset)asset,
                     sender,
                     reciever,
-                    out FungibleAssetTransaction transaction))
+                    out _))
                 {
                     WriteError("Cannot create a fungible transaction.\n" +
                         "Possible causes:\n" +
@@ -152,7 +158,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
             else if (asset.Type == AssetType.NonFungible)
             {
                 // NON FUNGIBLE ASSET TRANSACTION
-                if(selectedWallet.Type == WalletType.BitcoinWallet || toBeReciever.Type == WalletType.BitcoinWallet)
+                if (selectedWallet.Type == WalletType.BitcoinWallet || toBeReciever.Type == WalletType.BitcoinWallet)
                 {
                     WriteError("Make sure that both wallets support non fungible assets.");
                     return;
@@ -160,11 +166,10 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
 
                 AdvancedWallet sender = (AdvancedWallet)selectedWallet;
                 AdvancedWallet reciever = (AdvancedWallet)toBeReciever;
-
                 if (!NonFungibleAssetTransaction.TryCreateNonFungibleTransaction((NonFungibleAsset)asset,
                     sender,
                     reciever,
-                    out NonFungibleAssetTransaction transaction))
+                    out _))
                 {
                     WriteError("Cannot create a non fungible transaction.\n" +
                         "Possible causes:\n" +
@@ -184,7 +189,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
             sortedTransactions.Sort(
                 (x, y) => y.CreatedAt.CompareTo(x.CreatedAt));
 
-            foreach (var t in sortedTransactions)
+            foreach (ITransaction t in sortedTransactions)
             {
                 HorizontalSeparator();
                 WriteLine($"Transaction Id: {t.Id}\n" +
@@ -226,7 +231,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
             }
 
             Write("Input the id of the transaction you want to revoke: ");
-            if(!TryGetAddressFromUser(out Guid transactionId))
+            if (!TryGetAddressFromUser(out Guid transactionId))
             {
                 WriteError("Invalid address format.");
                 return;
@@ -234,7 +239,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
 
             ITransaction? transaction = selectedWallet.Transactions.FirstOrDefault(x => x!.Id == transactionId, null);
 
-            if(transaction == null)
+            if (transaction == null)
             {
                 WriteError("Transaction does not exist.\n" +
                     "Please check if the transaction address was typed in correctly.");
@@ -248,7 +253,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
                     " - More than 60 seconds passed since the transaction was created.\n" +
                     " - You are trying to revoke a already revoked transaction.\n" +
                     " - You are trying to revoke a transaction not created by this wallet.");
-                return ;
+                return;
             }
             WriteSuccess($"Transaction revoked.");
             WaitForUserInput();

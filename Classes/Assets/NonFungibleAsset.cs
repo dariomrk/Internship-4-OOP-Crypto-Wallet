@@ -7,28 +7,15 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
     public sealed class NonFungibleAsset : Asset
     {
         #region Fields
-        private FungibleAsset _tiedFungibleAsset;
-        private decimal _amountOfTiedFungibleAsset;
+        private readonly FungibleAsset _tiedFungibleAsset;
         #endregion
 
         #region Properties
-        public Guid TiedFungibleAssetAddress { get => _tiedFungibleAsset.Address; }
-        public decimal AmountOfTiedFungibleAsset { get => _amountOfTiedFungibleAsset; }
+        public Guid TiedFungibleAssetAddress => _tiedFungibleAsset.Address;
+        public decimal AmountOfTiedFungibleAsset { get; }
 
-        public override decimal ValueUSD
-        {
-            get
-            {
-                return _tiedFungibleAsset.ValueUSD * _amountOfTiedFungibleAsset;
-            }
-        }
-        public override decimal PreviousValueUSD
-        {
-            get
-            {
-                return _tiedFungibleAsset.PreviousValueUSD * _amountOfTiedFungibleAsset;
-            }
-        }
+        public override decimal ValueUSD => _tiedFungibleAsset.ValueUSD * AmountOfTiedFungibleAsset;
+        public override decimal PreviousValueUSD => _tiedFungibleAsset.PreviousValueUSD * AmountOfTiedFungibleAsset;
         #endregion
 
         #region Constructors
@@ -40,7 +27,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
             BaseWallet.AddSupport(this);
             _tiedFungibleAsset=tiedFungibleAsset
                 ?? throw new ArgumentNullException("Parameter fungibleAsset cannot be null.");
-            _amountOfTiedFungibleAsset = tiedFungibleAssetAmount;
+            AmountOfTiedFungibleAsset = tiedFungibleAssetAmount;
         }
         #endregion
 
@@ -55,7 +42,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
             return base.ToString() +
                 $"\n" +
                 $"Type: NonFungible\n" +
-                $"Percentage change: {diff.ToString("F")} %\n" +
+                $"Percentage change: {diff:F} %\n" +
                 $"Value: {ValueUSD} $";
         }
         #endregion

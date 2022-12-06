@@ -1,6 +1,6 @@
-﻿using static Internship_4_OOP_Crypto_Wallet.Utils.Helpers;
-using Internship_4_OOP_Crypto_Wallet.Classes.Wallets;
+﻿using Internship_4_OOP_Crypto_Wallet.Classes.Wallets;
 using static Internship_4_OOP_Crypto_Wallet.Enums.Types;
+using static Internship_4_OOP_Crypto_Wallet.Utils.Helpers;
 
 namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
 {
@@ -17,14 +17,17 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
             set
             {
                 if (string.IsNullOrEmpty(value))
+                {
                     throw new ArgumentNullException("Label property cannot be an empty string.");
+                }
+
                 if (Asset.TryAddNameOrLabel(value))
                 {
                     _label = value;
                     return;
                 }
                 // In case the Name string is already added to the Asset._namesLabels hashSet.
-                Asset.RemoveNameOrLabel(Name);
+                RemoveNameOrLabel(Name);
                 throw new InvalidOperationException("Label property must be unique.");
             }
         }
@@ -41,12 +44,12 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
         #region Methods
         public override string ToString()
         {
-            decimal diff = CalculatePercentDifference(PreviousValueUSD,ValueUSD);
+            decimal diff = CalculatePercentDifference(PreviousValueUSD, ValueUSD);
             return base.ToString() +
                 $"\n" +
                 $"Label: {Label}\n" +
                 $"Type: Fungible\n" +
-                $"Percentage change: {diff.ToString("F")} %\n" +
+                $"Percentage change: {diff:F} %\n" +
                 $"Value: 1 {Label} <-> {ValueUSD} $";
         }
         #endregion

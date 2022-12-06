@@ -1,7 +1,7 @@
 ﻿using Internship_4_OOP_Crypto_Wallet.Classes.Assets;
-using Internship_4_OOP_Crypto_Wallet.Utils;
-using Internship_4_OOP_Crypto_Wallet.Interfaces;
 using Internship_4_OOP_Crypto_Wallet.Classes.Wallets;
+using Internship_4_OOP_Crypto_Wallet.Interfaces;
+using Internship_4_OOP_Crypto_Wallet.Utils;
 using static Internship_4_OOP_Crypto_Wallet.Enums.Types;
 
 namespace Internship_4_OOP_Crypto_Wallet.Classes.Transactions
@@ -29,15 +29,13 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Transactions
         #endregion
 
         #region Fields
-        private decimal _balanceSenderBefore, _balanceSenderAfter;
-        private decimal _balanceRecieverBefore, _balanceRecieverAfter;
         #endregion
 
         #region Properties
-        public decimal BalanceSenderBefore => _balanceSenderBefore;
-        public decimal BalanceSenderAfter => _balanceSenderAfter;
-        public decimal BalanceRecieverBefore => _balanceRecieverBefore;
-        public decimal BalanceRecieverAfter => _balanceRecieverAfter;
+        public decimal BalanceSenderBefore { get; }
+        public decimal BalanceSenderAfter { get; }
+        public decimal BalanceRecieverBefore { get; }
+        public decimal BalanceRecieverAfter { get; }
         #endregion
 
         #region Constructors
@@ -46,19 +44,23 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Transactions
             ISupportsFungible reciever) : base(asset.Address, sender, reciever, TransactionType.Fungible)
         {
             if (amount < 0)
+            {
                 throw new InvalidOperationException("Sender is not able to send a negative amount.");
+            }
 
-            _balanceSenderBefore = Helpers.FindAmount(asset.Address, sender);
-            _balanceRecieverBefore = Helpers.FindAmount(asset.Address, reciever);
+            BalanceSenderBefore = Helpers.FindAmount(asset.Address, sender);
+            BalanceRecieverBefore = Helpers.FindAmount(asset.Address, reciever);
 
             if (!sender.CanCoverAssetAmount(asset, amount))
+            {
                 throw new InvalidOperationException("Sender is not able to cover the cost of this transaction.");
+            }
 
             reciever.IncreaseAssetAmount(asset, amount);
-            sender.ReduceAssetAmount(asset, amount);
+            _=sender.ReduceAssetAmount(asset, amount);
 
-            _balanceSenderAfter = Helpers.FindAmount(asset.Address, sender);
-            _balanceRecieverAfter = Helpers.FindAmount(asset.Address, reciever);
+            BalanceSenderAfter = Helpers.FindAmount(asset.Address, sender);
+            BalanceRecieverAfter = Helpers.FindAmount(asset.Address, reciever);
         }
         #endregion
 

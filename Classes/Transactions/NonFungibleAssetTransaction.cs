@@ -38,17 +38,19 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Transactions
             ISupportsNonFungible reciever) : base(asset.Address, sender, reciever, TransactionType.NonFungible)
         {
             if (!sender.OwnsAsset(asset))
+            {
                 throw new InvalidOperationException("Sender does not own the asset.");
+            }
 
             reciever.AddAsset(asset);
-            sender.RemoveAsset(asset);
+            _=sender.RemoveAsset(asset);
         }
         #endregion
 
         #region Methods
         public override bool RevokeTransaction(IWallet caller)
         {
-            if(base.RevokeTransaction(caller))
+            if (base.RevokeTransaction(caller))
             {
                 AdvancedWallet sender = (AdvancedWallet)_sender;
                 AdvancedWallet reciever = (AdvancedWallet)_reciever;

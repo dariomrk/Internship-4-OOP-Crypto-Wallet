@@ -1,13 +1,13 @@
-﻿using static Internship_4_OOP_Crypto_Wallet.UserInterface.Helpers;
-using static Internship_4_OOP_Crypto_Wallet.UserInterface.MenuDefinitons;
+﻿using Internship_4_OOP_Crypto_Wallet.Classes.Wallets;
 using static Internship_4_OOP_Crypto_Wallet.Data.Predefined;
-using Internship_4_OOP_Crypto_Wallet.Classes.Wallets;
+using static Internship_4_OOP_Crypto_Wallet.UserInterface.Helpers;
+using static Internship_4_OOP_Crypto_Wallet.UserInterface.MenuDefinitons;
 
 namespace Internship_4_OOP_Crypto_Wallet
 {
     public static class Program
     {
-        static void Main()
+        private static void Main()
         {
             // Preset portfolios for testing
             ((BitcoinWallet)wallets[0]).IncreaseAssetAmount(fungibleAssets[0], 1); // add 1 BTC (fungible asset)

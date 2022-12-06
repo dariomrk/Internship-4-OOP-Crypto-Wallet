@@ -1,6 +1,4 @@
-﻿using Internship_4_OOP_Crypto_Wallet.Classes.Assets;
-using Internship_4_OOP_Crypto_Wallet.Interfaces;
-using System;
+﻿using Internship_4_OOP_Crypto_Wallet.Interfaces;
 using static Internship_4_OOP_Crypto_Wallet.Enums.Types;
 
 namespace Internship_4_OOP_Crypto_Wallet.Classes.Transactions
@@ -10,33 +8,31 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Transactions
         #region Fields
         public TransactionType Type => _type;
         public TransactionType _type;
-        private Guid _id;
-        private Guid _assetAddress;
-        private DateTime _createdAt = DateTime.UtcNow;
         protected IWallet _sender, _reciever;
-        private bool _isRevoked = false;
         #endregion
 
         #region Properties
-        public Guid Id => _id;
-        public Guid AssetAddress => _assetAddress;
-        public DateTime CreatedAt => _createdAt;
+        public Guid Id { get; }
+        public Guid AssetAddress { get; }
+        public DateTime CreatedAt { get; } = DateTime.UtcNow;
         public Guid Sender => _sender.Address;
         public Guid Reciever => _reciever.Address;
-        public bool IsRevoked { get => _isRevoked; }
+        public bool IsRevoked { get; private set; } = false;
         #endregion
 
         #region Constructors
         protected Transaction(Guid assetAddress, IWallet sender, IWallet reciever, TransactionType type)
         {
-            _id = Guid.NewGuid();
+            Id = Guid.NewGuid();
             _type = type;
-            _assetAddress = assetAddress;
+            AssetAddress = assetAddress;
             _sender = sender;
             _reciever = reciever;
 
             if (sender.Address == reciever.Address)
+            {
                 throw new InvalidOperationException("Cannot transfer an asset to self.");
+            }
 
             sender.AddTransaction(this);
             reciever.AddTransaction(this);
@@ -46,13 +42,19 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Transactions
         #region Methods
         public virtual bool RevokeTransaction(IWallet caller)
         {
-            if(_isRevoked)
+            if (IsRevoked)
+            {
                 return false;
-            if(caller.Address != Sender)
+            }
+
+            if (caller.Address != Sender)
+            {
                 return false;
+            }
+
             if ((DateTime.UtcNow - CreatedAt).TotalSeconds <= 60)
             {
-                _isRevoked = true;
+                IsRevoked = true;
                 return true;
             }
             return false;

@@ -1,8 +1,8 @@
 ﻿using Internship_4_OOP_Crypto_Wallet.Classes.Assets;
 using Internship_4_OOP_Crypto_Wallet.Classes.Transactions;
 using Internship_4_OOP_Crypto_Wallet.Interfaces;
-using static Internship_4_OOP_Crypto_Wallet.Utils.Helpers;
 using static Internship_4_OOP_Crypto_Wallet.Enums.Types;
+using static Internship_4_OOP_Crypto_Wallet.Utils.Helpers;
 
 namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
 {
@@ -22,9 +22,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
         }
         public static IWallet? GetWallet(Guid walletAddress)
         {
-            if (_allWallets.ContainsKey(walletAddress))
-                return _allWallets[walletAddress];
-            return null;
+            return _allWallets.ContainsKey(walletAddress) ? _allWallets[walletAddress] : null;
         }
         public static Guid[] WalletAddresses()
         {
@@ -33,14 +31,12 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
         #endregion
 
         #region Fields
-        private Guid _address = Guid.NewGuid();
-        private List<ITransaction> _transactions = new();
-        private Dictionary<Guid, decimal> _balances = new();
-        private WalletType _type;
+        private readonly List<ITransaction> _transactions = new();
+        private readonly Dictionary<Guid, decimal> _balances = new();
         #endregion
 
         #region Properties
-        public Guid Address => _address;
+        public Guid Address { get; } = Guid.NewGuid();
         public ITransaction[] Transactions => _transactions.ToArray();
         public (Guid AssetAddress, decimal Amount)[] Balances
         {
@@ -48,7 +44,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
             {
                 List<(Guid, decimal)> output = new();
 
-                foreach (var key in _balances.Keys)
+                foreach (Guid key in _balances.Keys)
                 {
                     output.Add((key, _balances[key]));
                 }
@@ -56,13 +52,13 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
             }
         }
         public Guid[] SupportedFungibleAssets => _allFungible.ToArray();
-        public WalletType Type => _type;
+        public WalletType Type { get; }
         public virtual decimal PortfolioValueUSD
         {
             get
             {
                 decimal sum = 0;
-                foreach (var item in _balances)
+                foreach (KeyValuePair<Guid, decimal> item in _balances)
                 {
                     sum += item.Value * Asset.GetAsset(item.Key)!.ValueUSD;
                 }
@@ -74,7 +70,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
             get
             {
                 decimal sum = 0;
-                foreach (var item in _balances)
+                foreach (KeyValuePair<Guid, decimal> item in _balances)
                 {
                     sum += item.Value * Asset.GetAsset(item.Key)!.PreviousValueUSD;
                 }
@@ -86,8 +82,8 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
         #region Constructors
         protected BaseWallet(WalletType type)
         {
-            _type = type;
-            foreach(var f in _allFungible)
+            Type = type;
+            foreach (Guid f in _allFungible)
             {
                 _balances.Add(f, 0);
             }
@@ -98,18 +94,18 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
         #region Methods
         public bool CanCoverAssetAmount(FungibleAsset asset, decimal amount)
         {
-            if (!SupportedFungibleAssets.Contains(asset.Address))
-                throw new InvalidOperationException("Fungible asset does not exist.");
-
-            if (_balances[asset.Address] < amount)
-                return false;
-            return true;
+            return !SupportedFungibleAssets.Contains(asset.Address)
+                ? throw new InvalidOperationException("Fungible asset does not exist.")
+                : _balances[asset.Address] >= amount;
         }
 
         public bool ReduceAssetAmount(FungibleAsset asset, decimal amount)
         {
             if (!CanCoverAssetAmount(asset, amount))
+            {
                 return false;
+            }
+
             _balances[asset.Address] -= amount;
             return true;
         }
@@ -117,13 +113,16 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
         public void IncreaseAssetAmount(FungibleAsset asset, decimal amount)
         {
             if (!SupportedFungibleAssets.Contains(asset.Address))
+            {
                 throw new InvalidOperationException("Fungible asset does not exist.");
+            }
+
             _balances[asset.Address] += amount;
         }
 
         public void RevokeFungibleTransaction(FungibleAssetTransaction transaction)
         {
-            if(transaction.Sender == Address)
+            if (transaction.Sender == Address)
             {
                 _balances[transaction.AssetAddress] += transaction.BalanceSenderBefore-transaction.BalanceSenderAfter;
             }
@@ -132,17 +131,19 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
                 _balances[transaction.AssetAddress] += transaction.BalanceRecieverBefore-transaction.BalanceRecieverAfter;
             }
             else
+            {
                 return;
+            }
         }
 
         public override string ToString()
         {
 
-            decimal diff = CalculatePercentDifference(PreviousPortfolioValueUSD,PortfolioValueUSD);
+            decimal diff = CalculatePercentDifference(PreviousPortfolioValueUSD, PortfolioValueUSD);
             return $"Wallet type: {Type}\n" +
                 $"Wallet address: {Address}\n" +
-                $"Total assets value: {PortfolioValueUSD.ToString("F")} $\n" +
-                $"Percentage change: {diff.ToString("F")} %";
+                $"Total assets value: {PortfolioValueUSD:F} $\n" +
+                $"Percentage change: {diff:F} %";
         }
 
         public void AddTransaction(ITransaction transaction)

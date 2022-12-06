@@ -8,10 +8,14 @@ namespace Internship_4_OOP_Crypto_Wallet.Utils
     public static class Helpers
     {
         public static decimal FindAmount(Guid assetAddress, ISupportsFungible wallet)
-         => wallet.Balances.First(x => x.AssetAddress == assetAddress).Amount;
+        {
+            return wallet.Balances.First(x => x.AssetAddress == assetAddress).Amount;
+        }
 
         public static FungibleAsset? FindByLabel(FungibleAsset[] assets, string label)
-            => assets.First(x => x.Label == label);
+        {
+            return assets.First(x => x.Label == label);
+        }
 
         /// <summary>
         /// Returns a percentage difference between the initial and final value.
@@ -21,11 +25,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Utils
         /// <returns>Decimal number representing a percentage.</returns>
         public static decimal CalculatePercentDifference(decimal initial, decimal final)
         {
-            if(initial != 0)
-            {
-                return (final - initial) / initial * 100;
-            }
-            return 0;
+            return initial != 0 ? (final - initial) / initial * 100 : 0;
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Utils
         /// </summary>
         /// <param name="w"></param>
         /// <returns>IWallet of specified type.</returns>
-        public static IWallet CreateWallet(WalletType w)
+        public static IWallet? CreateWallet(WalletType w)
         {
             switch (w)
             {
