@@ -21,6 +21,13 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Transactions
             ISupportsNonFungible reciever,
             out NonFungibleAssetTransaction? newTransaction)
         {
+            newTransaction = null;
+
+            if (!sender.OwnedNonFungibleAssets.Contains(asset.Address))
+            {
+                return false;
+            }
+
             try
             {
                 newTransaction = new NonFungibleAssetTransaction(asset, sender, reciever);
@@ -28,7 +35,6 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Transactions
             }
             catch (Exception)
             {
-                newTransaction = null;
                 return false;
             }
         }

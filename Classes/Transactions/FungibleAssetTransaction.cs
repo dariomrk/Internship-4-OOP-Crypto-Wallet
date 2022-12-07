@@ -24,6 +24,13 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Transactions
             ISupportsFungible reciever,
             out FungibleAssetTransaction? newTransaction)
         {
+            newTransaction = null;
+
+            if (amount > sender.Balances.First(x => x.AssetAddress == asset.Address).Amount)
+            {
+                return false;
+            }
+
             try
             {
                 newTransaction = new FungibleAssetTransaction(amount, asset, sender, reciever);
@@ -31,7 +38,6 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Transactions
             }
             catch (Exception)
             {
-                newTransaction = null;
                 return false;
             }
         }
