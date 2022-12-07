@@ -45,9 +45,9 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
         {
             decimal diff = CalculatePercentDifference(PreviousValueUSD, ValueUSD);
             return base.ToString() +
-                $"\n" +
+                "\n" +
                 $"Label: {Label}\n" +
-                $"Type: Fungible\n" +
+                "Type: Fungible\n" +
                 $"Percentage change: {diff:F} %\n" +
                 $"Value: 1 {Label} <-> {ValueUSD:0.0000} $";
         }

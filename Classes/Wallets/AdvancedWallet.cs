@@ -90,7 +90,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
                     return;
                 }
 
-                AddAsset((NonFungibleAsset)Asset.GetAsset(transaction.AssetAddress));
+                AddAsset((NonFungibleAsset)Asset.GetAsset(transaction.AssetAddress)!);
             }
             if (transaction.Reciever == Address)
             {
@@ -99,7 +99,7 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
                     return;
                 }
 
-                RemoveAsset((NonFungibleAsset)Asset.GetAsset(transaction.AssetAddress));
+                RemoveAsset((NonFungibleAsset)Asset.GetAsset(transaction.AssetAddress)!);
             }
         }
 

@@ -9,8 +9,17 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
     public abstract class BaseWallet : ISupportsFungible
     {
         #region Static members
+        /// <summary>
+        /// Stores all wallets.
+        /// </summary>
         public static Dictionary<Guid, IWallet> _allWallets = new();
+        /// <summary>
+        /// Stores addresses of all existing fungible assets.
+        /// </summary>
         protected static List<Guid> _allFungible = new();
+        /// <summary>
+        /// Stores adresses of all existing non fungible assets.
+        /// </summary>
         protected static List<Guid> _allNonFungible = new();
 
         /// <summary>
@@ -49,6 +58,11 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Wallets
             _allNonFungible.Add(a.Address);
         }
 
+        /// <summary>
+        /// Gets the reference to the wallet with the specified address.
+        /// </summary>
+        /// <param name="walletAddress"></param>
+        /// <returns></returns>
         public static IWallet? GetWallet(Guid walletAddress)
         {
             return _allWallets.ContainsKey(walletAddress) ? _allWallets[walletAddress] : null;

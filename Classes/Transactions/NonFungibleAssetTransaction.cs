@@ -8,6 +8,14 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Transactions
     public sealed class NonFungibleAssetTransaction : Transaction
     {
         #region Static members
+        /// <summary>
+        /// Tries to create a non fungible asset transaction.
+        /// </summary>
+        /// <param name="asset"></param>
+        /// <param name="sender"></param>
+        /// <param name="reciever"></param>
+        /// <param name="newTransaction"></param>
+        /// <returns>Boolean indicating wether the transaction succeded.</returns>
         public static bool TryCreateNonFungibleTransaction(NonFungibleAsset asset,
             ISupportsNonFungible sender,
             ISupportsNonFungible reciever,

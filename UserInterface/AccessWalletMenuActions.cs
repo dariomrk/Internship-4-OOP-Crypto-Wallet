@@ -14,7 +14,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
         public static void Portfolio()
         {
             Clear();
-            if (selectedWallet.Type == WalletType.BitcoinWallet)
+            if (selectedWallet!.Type == WalletType.BitcoinWallet)
             {
                 BaseWallet w = (BaseWallet)BaseWallet.GetWallet(selectedWallet.Address)!;
 
@@ -95,7 +95,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
                 return;
             }
 
-            IWallet toBeReciever = BaseWallet.GetWallet(walletAddress);
+            IWallet toBeReciever = BaseWallet.GetWallet(walletAddress)!;
 
             if (toBeReciever == null)
             {
@@ -103,7 +103,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
                 return;
             }
 
-            if (toBeReciever.Address == selectedWallet.Address)
+            if (toBeReciever.Address == selectedWallet!.Address)
             {
                 WriteError("You cannot set the reciever as self.");
                 return;
@@ -117,7 +117,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
                 return;
             }
 
-            Asset asset = Asset.GetAsset(assetAddress);
+            Asset asset = Asset.GetAsset(assetAddress)!;
 
             if (asset == null)
             {
@@ -185,7 +185,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
         public static void TransactionHistory()
         {
             Clear();
-            List<ITransaction> sortedTransactions = selectedWallet.Transactions.ToList();
+            List<ITransaction> sortedTransactions = selectedWallet!.Transactions.ToList();
             sortedTransactions.Sort(
                 (x, y) => y.CreatedAt.CompareTo(x.CreatedAt));
 
@@ -198,6 +198,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
                     $"Reciever: {t.Reciever}\n" +
                     $"Name: {Asset.GetAsset(t.AssetAddress)!.Name}\n" +
                     $"Revoked: {t.IsRevoked}");
+#pragma warning disable RCS1075 // Avoid empty catch clause that catches System.Exception.
                 try
                 {
                     decimal diff = ((FungibleAssetTransaction)t).BalanceSenderAfter
@@ -208,6 +209,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
                 {
                     // Catch what? (● _ ●) I aint goona do shit
                 }
+#pragma warning restore RCS1075 // Avoid empty catch clause that catches System.Exception.
             }
             if (!selectedWallet.Transactions.Any())
             {
@@ -224,7 +226,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
         public static void RevokeTransaction()
         {
             Clear();
-            if (!selectedWallet.Transactions.Any())
+            if (!selectedWallet!.Transactions.Any())
             {
                 WriteWarning("There are no previous transactions.");
                 return;
@@ -255,7 +257,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
                     " - You are trying to revoke a transaction not created by this wallet.");
                 return;
             }
-            WriteSuccess($"Transaction revoked.");
+            WriteSuccess("Transaction revoked.");
             WaitForUserInput();
         }
     }

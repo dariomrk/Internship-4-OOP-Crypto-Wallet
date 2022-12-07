@@ -2,6 +2,9 @@
 
 namespace Internship_4_OOP_Crypto_Wallet.Interfaces
 {
+    /// <summary>
+    /// Defines a generic transaction.
+    /// </summary>
     public interface ITransaction
     {
         public TransactionType Type { get; }

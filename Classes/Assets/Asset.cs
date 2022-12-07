@@ -85,7 +85,6 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Assets
             }
         }
         public virtual decimal ValueUSD => _currentValueUSD;
-
         public virtual decimal PreviousValueUSD => _previousValueUSD;
         #endregion
 

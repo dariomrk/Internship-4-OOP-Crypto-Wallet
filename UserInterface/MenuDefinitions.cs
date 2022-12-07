@@ -4,6 +4,9 @@ using static Internship_4_OOP_Crypto_Wallet.UserInterface.MainMenuActions;
 
 namespace Internship_4_OOP_Crypto_Wallet.UserInterface
 {
+    /// <summary>
+    /// Menus / submenu -> action bindings.
+    /// </summary>
     public static class MenuDefinitons
     {
         public static readonly (string Alias, Action Action)[] mainMenuItems = new (string Alias, Action Action)[]

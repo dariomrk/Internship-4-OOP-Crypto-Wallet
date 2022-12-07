@@ -9,6 +9,15 @@ namespace Internship_4_OOP_Crypto_Wallet.Classes.Transactions
     public sealed class FungibleAssetTransaction : Transaction
     {
         #region Static members
+        /// <summary>
+        /// Tries to create a fungible asset transaction.
+        /// </summary>
+        /// <param name="amount"></param>
+        /// <param name="asset"></param>
+        /// <param name="sender"></param>
+        /// <param name="reciever"></param>
+        /// <param name="newTransaction"></param>
+        /// <returns>Boolean indicating wether the transaction completed successfully.</returns>
         public static bool TryCreateFungibleTransaction(decimal amount,
             FungibleAsset asset,
             ISupportsFungible sender,

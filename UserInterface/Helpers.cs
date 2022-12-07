@@ -3,6 +3,9 @@ using static System.Console;
 
 namespace Internship_4_OOP_Crypto_Wallet.UserInterface
 {
+    /// <summary>
+    /// A set of CLI Helpers.
+    /// </summary>
     public static class Helpers
     {
         public static void WaitForUserInput()
@@ -104,7 +107,7 @@ namespace Internship_4_OOP_Crypto_Wallet.UserInterface
                 Clear();
                 WriteLine(message);
                 Write("Input Y/N: ");
-                string userInput = ReadLine();
+                string userInput = ReadLine()!;
                 if (string.IsNullOrWhiteSpace(userInput))
                 {
                     WriteError("You must select one option.");

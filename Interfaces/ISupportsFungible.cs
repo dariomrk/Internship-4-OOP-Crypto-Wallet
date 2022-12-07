@@ -3,6 +3,9 @@ using Internship_4_OOP_Crypto_Wallet.Classes.Transactions;
 
 namespace Internship_4_OOP_Crypto_Wallet.Interfaces
 {
+    /// <summary>
+    /// Defines a wallet that supports interacting with fungible assets.
+    /// </summary>
     public interface ISupportsFungible : IWallet
     {
         public (Guid AssetAddress, decimal Amount)[] Balances { get; }
